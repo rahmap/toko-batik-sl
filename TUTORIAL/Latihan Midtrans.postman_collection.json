@@ -1,0 +1,79 @@
+{
+	"info": {
+		"_postman_id": "639811ef-e10c-418f-ac11-ee62b02ced8c",
+		"name": "Latihan Midtrans",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "midtrans send pending",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"transaction_time\": \"2019-11-03 20:26:00\",\r\n  \"transaction_status\": \"pending\",\r\n  \"transaction_id\": \"ff12db77-2317-4cbe-aad1-519bc83c6171\",\r\n  \"status_message\": \"midtrans payment notification\",\r\n  \"status_code\": \"201\",\r\n  \"signature_key\": \"838f585ae8061bbd660c7386a5c35e733b3b0ff21639e7cfc93dc4339ab95c269f5f4fb1b69b7fa62f11125ac93c564435043af62aa155d1e4b8251f161b0022\",\r\n  \"payment_type\": \"bca_klikpay\",\r\n  \"order_id\": \"5dbed553853be\",\r\n  \"merchant_id\": \"G887993358\",\r\n  \"gross_amount\": \"200000.00\",\r\n  \"fraud_status\": \"accept\",\r\n  \"currency\": \"IDR\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://lvh.me/TokoCI2/payment/handling",
+					"protocol": "http",
+					"host": [
+						"lvh",
+						"me"
+					],
+					"path": [
+						"TokoCI2",
+						"payment",
+						"handling"
+					]
+				},
+				"description": "Test Payment"
+			},
+			"response": []
+		},
+		{
+			"name": "midtrans send payment (after pending)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"transaction_time\": \"2020-08-19 17:39:44\",\r\n  \"transaction_status\": \"settlement\",\r\n  \"transaction_id\": \"75738a13-b51f-4d05-a01f-bd521bcf638c\",\r\n  \"status_message\": \"midtrans payment notification\",\r\n  \"status_code\": \"200\",\r\n  \"signature_key\": \"fa41b28f304e89fe2af1ea55d4a89208520dff09261159b037452a849d02216d8276fd469fec35225f4a1e23994048555e5f04e7d7d5c4da3e2952e4650587cd\",\r\n  \"settlement_time\": \"2020-08-19 17:44:25\",\r\n  \"permata_va_number\": \"194008982659021\",\r\n  \"payment_type\": \"bank_transfer\",\r\n  \"order_id\": \"Millano-5f3d015a2facc\",\r\n  \"merchant_id\": \"G235519478\",\r\n  \"gross_amount\": \"374000.00\",\r\n  \"fraud_status\": \"accept\",\r\n  \"currency\": \"IDR\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://lvh.me/TokoCI2/payment/handling",
+					"protocol": "http",
+					"host": [
+						"lvh",
+						"me"
+					],
+					"path": [
+						"TokoCI2",
+						"payment",
+						"handling"
+					]
+				},
+				"description": "sd"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

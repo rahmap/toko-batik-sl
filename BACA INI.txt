@@ -1,0 +1,4 @@
+ Panduan Toko Pakaian Millano.docx
+  - Buka Folder TUTORIAL
+      # Buka file .env (untuk setup API dan lain - lain)
+      # Buka config/Constants.php, scroll ke bawah untuk melihat variabel constant
