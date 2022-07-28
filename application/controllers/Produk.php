@@ -70,7 +70,7 @@ class Produk extends CI_Controller
     $jenis = $this->uri->segment(3);
     $data['tags'] = $this->Produk_Model->getAllTags();
     $data['cat'] = $this->Produk_Model->getAllCat();
-    $data['title'] = 'Millano - Pencarian ' . ucwords($nama);
+    $data['title'] = 'Batik - Pencarian ' . ucwords($nama);
     $data['totData'] = $this->Produk_Model->hitungProdukKategori($jenis, $nama);
     //konfigurasi pagination
     $config['base_url'] = base_url('produk/cari/' . $jenis . '/' . $nama); //site url
@@ -99,7 +99,7 @@ class Produk extends CI_Controller
     }
     $data['tags'] = $this->Produk_Model->getAllTags();
     $data['cat'] = $this->Produk_Model->getAllCat();
-    $data['title'] = 'Millano - Pencarian ' . str_replace('%20', ' ', ucwords($keyword));
+    $data['title'] = 'Batik - Pencarian ' . str_replace('%20', ' ', ucwords($keyword));
     $data['totData'] = $this->Produk_Model->hitungProdukKeyword($keyword);
     //konfigurasi pagination
     $config['base_url'] = base_url('produk/cari_produk/' . $keyword); //site url

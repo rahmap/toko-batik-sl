@@ -15,7 +15,7 @@
   <nav class="navbar navbar-light">
     <div class="container"> <a class="navbar-brand text-primary" href="<?= base_url('home') ?>">
         <i class="fa d-inline fa-lg fa-circle"></i>
-        <b> Toko Millano</b>
+        <b> Toko Batik</b>
       </a> 
     </div>
   </nav>
@@ -30,7 +30,7 @@
               dengan Email <b style="color: #6D8EE8"><?= $email ?></b> dan Nama Akun <b style="color: #EB51B8"><?= $nama ?></b></h5>
               <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#modal_konfirmasi">Konfirmasi</a>
             </div>
-            <div class="card-footer text-muted">Toko Millano</div>
+            <div class="card-footer text-muted">Toko Batik</div>
           </div>
         </div>
       </div>

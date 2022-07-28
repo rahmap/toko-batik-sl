@@ -8,14 +8,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
   <link rel="stylesheet" href="https://static.pingendo.com/bootstrap/bootstrap-4.3.1.css">
-  <title>Millano - Error</title>
+  <title>Toko Batik - Error</title>
 </head>
 
 <body>
   <nav class="navbar navbar-light">
     <div class="container"> <a class="navbar-brand text-primary" href="<?= base_url('home') ?>">
         <i class="fa d-inline fa-lg fa-circle"></i>
-        <b> Toko Millano</b>
+        <b> Toko Batik</b>
       </a> 
     </div>
   </nav>

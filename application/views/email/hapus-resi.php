@@ -211,7 +211,7 @@ a, a:hover {
 			padding-bottom: 25px;
 			color: #000000;
 			font-family: sans-serif;" class="paragraph">
-				Punya pertanyaan? <a href="<?= base_url('contact') ?>" target="_blank" style="color: #127DB3; font-family: sans-serif; font-size: 17px; font-weight: 400; line-height: 160%;">Hubungi Toko Millano</a>
+				Punya pertanyaan? <a href="<?= base_url('contact') ?>" target="_blank" style="color: #127DB3; font-family: sans-serif; font-size: 17px; font-weight: 400; line-height: 160%;">Hubungi Toko Batik</a>
 		</td>
 	</tr>
 

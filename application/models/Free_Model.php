@@ -91,7 +91,7 @@ class Free_Model extends CI_Model
           'domain' => DOMAIN_MAILGUN //Ganti dengan domain anda, cek config/Constants.php
         ));
       
-        $this->mailgun->from($from, 'Toko Pakaian Millano');                  
+        $this->mailgun->from($from, 'Toko Batik');
         $this->mailgun->to($data['email'], $data['nama']);           
         $this->mailgun->subject($subject);                                       
         $this->mailgun->message($this->load->view('email/'.$file, $data, TRUE));                                 
@@ -119,7 +119,7 @@ class Free_Model extends CI_Model
 				// $this->email->set_header('MIME-Version', '1.0; charset=utf-8');
 				// $this->email->set_header('Content-type', 'text/html');
 
-				$this->email->from($from, 'Toko Pakaian Millano');
+				$this->email->from($from, 'Toko Batik');
 				$this->email->to($data['email']);
 				$this->email->subject($subject);
 				$this->email->message($body);

@@ -82,7 +82,7 @@
 										</div>
 										<div class="x_content">
 											<p class="text-muted font-13 m-b-30">
-											Menampilkan seluruh data pelanggan pada Toko Millano.
+											Menampilkan seluruh data pelanggan pada Toko Batik.
 											</p>
 											<table id="datatable-keytable" class="table table-striped table-bordered dataTable no-footer" role="grid" aria-describedby="datatable-keytable_info" style="position: relative;">
 												<thead>

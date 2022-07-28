@@ -138,7 +138,7 @@ class Home extends CI_Controller
 	public function detail_cart()
 	{
 		$data = [
-			'title' => 'Milano - Keranjang'
+			'title' => 'Batik - Keranjang'
 		];
 		$this->load->view('produk/cart', $data);
 	}
