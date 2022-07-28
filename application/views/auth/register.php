@@ -23,9 +23,19 @@
                   <?= form_error('lname', '<small class="text-danger pl-3">', '</small>') ?>
                 </div>
               </div>
+              <div class="form-group row">
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                  <input type="email" name="email" value="<?= set_value('email') ?>" class="form-control form-control-user" id="email" placeholder="Email Address">
+                  <?= form_error('email', '<small class="text-danger pl-3">', '</small>') ?>
+                </div>
+                <div class="col-sm-6">
+                  <input type="text" name="no_hp" value="<?= set_value('no_hp') ?>" minlength="8" maxlength="15" class="form-control form-control-user" id="no_hp" placeholder="Phone Number">
+                  <?= form_error('no_hp', '<small class="text-danger pl-3">', '</small>') ?>
+                </div>
+              </div>
               <div class="form-group">
-                <input type="email" name="email" value="<?= set_value('email') ?>" class="form-control form-control-user" id="email" placeholder="Email Address">
-                <?= form_error('email', '<small class="text-danger pl-3">', '</small>') ?>
+                <input type="text" name="address" minlength="5" maxlength="100" value="<?= set_value('address') ?>" class="form-control form-control-user" id="address" placeholder="Address">
+                <?= form_error('address', '<small class="text-danger pl-3">', '</small>') ?>
               </div>
               <div class="form-group row">
                 <div class="col-sm-6 mb-3 mb-sm-0">

@@ -108,6 +108,14 @@
                                 <label for="nama">Nama :</label>
                                 <input type="text" minlength="3" maxlength="25" id="nama" value="<?= $this->session->nama ?>" class="form-control" name="nama" required />
                                 <br/>
+                                <label for="no_hp">Phone Number :</label>
+                                <input type="text" minlength="8" maxlength="15" id="no_hp" value="<?= $dataUser['no_hp'] ?>" class="form-control" name="no_hp" required />
+                                <?= form_error('no_hp', '<small class="text-danger pl-3">', '</small>') ?>
+                                <br/>
+                                <label for="address">Alamat :</label>
+                                <input type="text" minlength="5" maxlength="100" id="address" value="<?= $dataUser['address'] ?>" class="form-control" name="address" required />
+                                <?= form_error('address', '<small class="text-danger pl-3">', '</small>') ?>
+                                <br/>
                                 <label for="email">Email :</label>
                                 <input type="email" id="email" value="<?= $this->session->email ?>" readonly class="form-control" name="email" required />
                                 <br/>

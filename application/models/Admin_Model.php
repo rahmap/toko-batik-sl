@@ -686,6 +686,7 @@ class Admin_Model extends CI_Model
 
     public function getDetailUsers()
 		{
-			return $this->db->get_where('detail_user', ['id_user' => $this->session->id_user])->row_array();
+      $this->db->join('detail_user', 'detail_user.id_user=data_user.id_user');
+			return $this->db->get_where('data_user', ['data_user.id_user' => $this->session->id_user])->row_array();
 		}
 }

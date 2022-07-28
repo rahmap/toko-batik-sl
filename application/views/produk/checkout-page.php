@@ -84,7 +84,7 @@
                   <div class="form-group">
                     <label class="control-label col-sm-12">Nama Penerima</label>
                     <div class="col-sm-12">          
-                      <input type="text" class="form-control" id="penerima" minlength="7" name="penerima" required>
+                      <input type="text" value="<?= $dataUser['nama'] ?>" class="form-control" id="penerima" minlength="7" name="penerima" required>
                     </div>
                     <?= form_error('penerima', '<small class="text-danger pl-3">', '</small>') ?>
                   </div>
@@ -93,7 +93,7 @@
                   <div class="form-group">
                     <label class="control-label col-sm-12">Telefon Penerima</label>
                     <div class="col-sm-12">          
-                      <input type="number" placeholder="Contoh : 08983423423" minlength="8" class="form-control" id="nohp" name="nohp" required>
+                      <input type="number" placeholder="Contoh : 08983423423" value="<?= $dataUser['no_hp'] ?>" minlength="8" class="form-control" id="nohp" name="nohp" required>
                     </div>
                     <?= form_error('nohp', '<small class="text-danger pl-3">', '</small>') ?>
                   </div>
@@ -109,7 +109,7 @@
               <div class="form-group">
                 <label class="control-label col-sm-12">Alamat Lengkap Pengiriman</label>
                 <div class="col-sm-12">          
-                  <textarea name="alamat" id="alamat" required class="form-control" minlength="10" placeholder="Contoh : Jl. Cinta Boulevard No.3 RT/RW 07/02 Bintaro, Pesanggrahan, Jaksel, 55551"></textarea>
+                  <textarea name="alamat" id="alamat" required class="form-control" minlength="5" placeholder="Contoh : Jl. Cinta Boulevard No.3 RT/RW 07/02 Bintaro, Pesanggrahan, Jaksel, 55551"><?= $dataUser['address'] ?></textarea>
                 </div>
                 <?= form_error('alamat', '<small class="text-danger pl-3">', '</small>') ?>
               </div>

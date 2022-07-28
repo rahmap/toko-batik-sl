@@ -74,22 +74,21 @@ class Customers_Model extends CI_Model
     // die();
     $dataDiri = [
       'nama' => $data['nama'],
-      'email' => $data['email']
+      'email' => $data['email'],
+      'address' => $data['address'],
+      'no_hp' => $data['no_hp']
     ];
+//    dd($dataDiri);
     
     $this->db->update('data_user', $dataDiri, ['id_user' => $this->session->id_user]);
     if($dataFoto != null){
       $foto['foto'] = $dataFoto;
       $this->db->update('detail_user', $foto, ['id_user' => $this->session->id_user]);
     }
-    // die($this->db->last_query());
-    if($this->db->affected_rows()){
-      $this->session->nama = $data['nama'];
-      $this->session->email = $data['email'];
-      return 1;
-    } else {
-      return 0;
-    }
+
+    $this->session->nama = $data['nama'];
+    $this->session->email = $data['email'];
+    return 1;
   }
 
   public function updateKeamanan($data)

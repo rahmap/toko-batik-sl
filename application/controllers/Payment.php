@@ -146,10 +146,10 @@ class Payment extends CI_Controller {
     $obj = file_get_contents('php://input');
 		$midtrans = json_decode($obj, true);
 		if($midtrans == null){ //Pengecekan
-			die('jnck');
+			die('stap it');
 		} else  {
 			if($midtrans['merchant_id'] != MARCHANT_ID){
-				die('wtf');
+				die('aw snap');
 			}
 		}
 

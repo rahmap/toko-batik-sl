@@ -130,32 +130,36 @@ class Customers extends CI_Controller
   public function pengaturan()
   {
     $data['title'] = 'Pengaturan Akun - Customers';
+    $data['dataUser'] = $this->Admin_Model->getDetailUsers();
     $this->load->view('user/setting/pengaturan', $data);
   }
 
   public function updateProfile()
   {
+		$dataUser = $this->Admin_Model->getDetailUsers();
     $dataFoto = null;
-    if( ($this->input->post('nama', true) == $this->session->nama AND 
-        $this->input->post('email', true) == $this->session->email) AND
+    if( ($this->input->post('nama', true) == $this->session->nama AND
+        $this->input->post('email', true) == $this->session->email AND
+        $this->input->post('address', true) == $dataUser['address'] AND
+        $this->input->post('no_hp', true) == $dataUser['no_hp']) AND
         empty($_FILES['foto']['name'])
       ){
       $this->freeM->getSweetAlert('message', 'Hemmm..','Data tidak berubah!','info');
       redirect('dashboard/customers/pengaturan');
     }
-
-		$dataUser = $this->Admin_Model->getDetailUsers();
 //    dd($dataUser);
 		if(!empty($_FILES['foto']['name'])) {
 			$dataFoto = $this->uploadFotoProfile();
 		} else {
 			$dataFoto = $dataUser['foto'];
 		}
-
+    $this->form_validation->set_rules('no_hp', 'Phone Number', 'required|numeric');
+    $this->form_validation->set_rules('address', 'Address', 'required|trim');
     $this->form_validation->set_rules('nama', 'Nama Baru', 'required|trim|min_length[3]|max_length[25]|alpha_numeric_spaces');
     if ($this->form_validation->run() == false) {
-      $this->freeM->getSweetAlert('message', 'Upss!', 'Panjang Nama Max 25 Min 3!','error');
-      redirect('dashboard/customers/pengaturan');
+      $data['title'] = 'Pengaturan Akun - Customers';
+      $data['dataUser'] = $this->Admin_Model->getDetailUsers();
+      $this->load->view('user/setting/pengaturan', $data);
     } else if($this->form_validation->run() == true){
       $this->form_validation->set_rules('email', 'Email Address', 'required|trim|valid_email|is_unique[data_user.email]', [
         'is_unique' => 'Email ini sudah dipakai!'
@@ -164,6 +168,8 @@ class Customers extends CI_Controller
         if($this->input->post('email') == $this->session->email){
           $data = [
             'nama' => htmlspecialchars($this->input->post('nama', true)),
+            'address' => htmlspecialchars($this->input->post('address', true)),
+            'no_hp' => htmlspecialchars($this->input->post('no_hp', true)),
             'email' => $this->session->email
           ];
           if($this->C_M->updateProfile($data, $dataFoto)){
@@ -187,6 +193,8 @@ class Customers extends CI_Controller
       } else {
         $data = [
           'nama' => htmlspecialchars($this->input->post('nama', true)),
+          'address' => htmlspecialchars($this->input->post('address', true)),
+          'no_hp' => htmlspecialchars($this->input->post('no_hp', true)),
           'email' => $this->session->email
         ];
         if($this->C_M->updateProfile($data, $dataFoto)){

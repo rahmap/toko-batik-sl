@@ -96,6 +96,8 @@ class Auth extends CI_Controller
             $this->form_validation->set_rules('password1', ' ', 'trim|required|matches[password]', [
                 'matches' => ' '
             ]);
+            $this->form_validation->set_rules('no_hp', 'Phone Number', 'required|numeric');
+            $this->form_validation->set_rules('address', 'Address', 'required|trim');
             if ($this->form_validation->run() == false) {
                 $data['title'] = 'Batik - Register Page';
                 $this->load->view('auth/register', $data);
@@ -104,6 +106,8 @@ class Auth extends CI_Controller
                 htmlspecialchars($this->input->post('lname', true));
                 $data = [
                     'nama' => ucwords($namaUser),
+                    'no_hp' => $this->input->post('no_hp', true),
+                    'address' => $this->input->post('address', true),
                     'email' => htmlspecialchars($this->input->post('email', true)),
                     'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
                     'level' => 'Member'
