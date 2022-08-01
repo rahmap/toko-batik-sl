@@ -4,6 +4,9 @@
 <head>
   <?php $this->load->view('produk/_partials-heda.php') ?>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="<?= base_url() ?>assets/SBAdmin2/select2/dist/css/select2.min.css">
+  <script src="<?= base_url() ?>assets/SBAdmin2/select2/dist/js/select2.min.js"></script>
+  <script src="<?= base_url() ?>assets/SBAdmin2/select2/dist/js/i18n/id.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 </head>
 
