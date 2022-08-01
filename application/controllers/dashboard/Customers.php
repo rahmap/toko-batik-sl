@@ -142,6 +142,7 @@ class Customers extends CI_Controller
         $this->input->post('email', true) == $this->session->email AND
         $this->input->post('address', true) == $dataUser['address'] AND
         $this->input->post('no_hp', true) == $dataUser['no_hp']) AND
+        $this->input->post('zip_code', true) == $dataUser['zip_code'] AND
         empty($_FILES['foto']['name'])
       ){
       $this->freeM->getSweetAlert('message', 'Hemmm..','Data tidak berubah!','info');
@@ -154,6 +155,7 @@ class Customers extends CI_Controller
 			$dataFoto = $dataUser['foto'];
 		}
     $this->form_validation->set_rules('no_hp', 'Phone Number', 'required|numeric');
+    $this->form_validation->set_rules('zip_code', 'Kode Pos', 'required|alpha_numeric_spaces|min_length[2]|max_length[15]');
     $this->form_validation->set_rules('address', 'Address', 'required|trim');
     $this->form_validation->set_rules('nama', 'Nama Baru', 'required|trim|min_length[3]|max_length[25]|alpha_numeric_spaces');
     if ($this->form_validation->run() == false) {
@@ -170,6 +172,7 @@ class Customers extends CI_Controller
             'nama' => htmlspecialchars($this->input->post('nama', true)),
             'address' => htmlspecialchars($this->input->post('address', true)),
             'no_hp' => htmlspecialchars($this->input->post('no_hp', true)),
+            'zip_code' => htmlspecialchars($this->input->post('zip_code', true)),
             'email' => $this->session->email
           ];
           if($this->C_M->updateProfile($data, $dataFoto)){
@@ -195,6 +198,7 @@ class Customers extends CI_Controller
           'nama' => htmlspecialchars($this->input->post('nama', true)),
           'address' => htmlspecialchars($this->input->post('address', true)),
           'no_hp' => htmlspecialchars($this->input->post('no_hp', true)),
+          'zip_code' => htmlspecialchars($this->input->post('zip_code', true)),
           'email' => $this->session->email
         ];
         if($this->C_M->updateProfile($data, $dataFoto)){

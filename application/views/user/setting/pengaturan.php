@@ -112,6 +112,10 @@
                                 <input type="text" minlength="8" maxlength="15" id="no_hp" value="<?= $dataUser['no_hp'] ?>" class="form-control" name="no_hp" required />
                                 <?= form_error('no_hp', '<small class="text-danger pl-3">', '</small>') ?>
                                 <br/>
+                                <label for="zip_code">Kode Pos :</label>
+                                <input type="text" minlength="2" maxlength="15" id="zip_code" value="<?= $dataUser['zip_code'] ?>" class="form-control" name="zip_code" required />
+                                <?= form_error('zip_code', '<small class="text-danger pl-3">', '</small>') ?>
+                                <br/>
                                 <label for="address">Alamat :</label>
                                 <input type="text" minlength="5" maxlength="100" id="address" value="<?= $dataUser['address'] ?>" class="form-control" name="address" required />
                                 <?= form_error('address', '<small class="text-danger pl-3">', '</small>') ?>

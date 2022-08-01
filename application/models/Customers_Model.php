@@ -76,6 +76,7 @@ class Customers_Model extends CI_Model
       'nama' => $data['nama'],
       'email' => $data['email'],
       'address' => $data['address'],
+      'zip_code' => $data['zip_code'],
       'no_hp' => $data['no_hp']
     ];
 //    dd($dataDiri);

@@ -102,7 +102,6 @@
 													<th>Nama</th>
 													<th class="text-center">Ukuran</th>
 													<th style="width:8%;">Kategori</th>
-													<th>Tag</th>
 													<th class="text-center">Harga</th>
 													<th class="text-center">Stok</th>
 													<th class="text-center">Diskon</th>
@@ -120,21 +119,6 @@
 														<td><?= $key['nama_produk'] ?></td>
 														<td class="text-center"><?= ($key['ukuran'] == 'all size, ') ? '<span class="label label-default">All Size</span>' : str_replace(' ','',rtrim($key['ukuran'], ', ')) ?></td>
 														<td style="width:8%;"><?= ($key['id_cat'] == null)? '<span class="label label-danger">Update Kategori</span>' : $key['nama_cat'] ; ?></td>
-														<td>
-															<?php
-															$newTag = '';
-															$newIdTag = '';
-															$fixIdTag = '';
-															if ($key['nama_tag'][0]['nama_tag'] == null){
-																echo '<span class="label label-danger">Update Tag</span>';
-															} else {
-																foreach ($key['nama_tag'] as $tags) {
-																	$newTag .= $tags['nama_tag'] . ',';
-																}
-																echo str_replace(',', ', ', rtrim($newTag, ','));
-															}
-																?>
-														</td>
 														<td class="text-center">Rp <?= number_format($key['harga_produk'], 0, ',', '.') ?></td>
 														<td class="text-center"><?= ($key['stok'] == 0) ? '<span class="label label-warning">Kosong</span>' : $key['stok'] ; ?></td>
 														<td class="text-center">
@@ -164,7 +148,6 @@
 																			data-id="'.$key['id_produk'].'"
 																			data-id_unik="'.$key['unik_produk'].'"
 																			data-id_cat="'.$key['id_cat'].'"
-																			data-id_tag="'.$fixIdTag.'"
 																			data-nama="'.$key['nama_produk'].'"
 																			data-keterangan="'.$key['ket_produk'].'"
 																			data-ukuran="'.str_replace(' ','',rtrim($key['ukuran'], ', ')).'"
@@ -256,16 +239,6 @@
 												<option value=""> Pilih </option>
 												<?php foreach ($cat as $key) : ?>
 													<option value="<?= $key['id_cat'] ?>" class="select_id_cat"><?= $key['nama_cat'] ?></option>
-												<?php endforeach; ?>
-											</select>
-										</span>
-										<br>
-										<label for="tag">Tag Produk <span class="text-danger">(kosongkan jika tidak berubah)</span> :</label>
-										<span style="width: 100%;" class="">
-											<select required id="tag" multiple="multiple"  name="tag[]" class="form-control m_id_tag select2-container1">
-												<option value=""> Pilih </option>
-												<?php foreach ($tag as $key) : ?>
-													<option value="<?= $key['id_tags'] ?>"><?= $key['nama_tag'] ?></option>
 												<?php endforeach; ?>
 											</select>
 										</span>
@@ -384,7 +357,6 @@
 					let id = triggerLink.data('id');
 					let id_unik = triggerLink.data('id_unik');
 					let id_cat = triggerLink.data('id_cat');
-					let id_tag = triggerLink.data('id_tag');
 					let nama = triggerLink.data('nama');
 					let keterangan = triggerLink.data('keterangan');
 					let ukuran = triggerLink.data('ukuran');

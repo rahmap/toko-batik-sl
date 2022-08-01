@@ -45,7 +45,7 @@
                     <div class="p-2">
                       <img src="<?= $items['gambar'] ?>" alt="" width="70" class="img-fluid rounded shadow-sm">
                       <div class="ml-3 d-inline-block align-middle">
-                        <h5 class="mb-0"> <a href="#" class="text-dark d-inline-block"><?= $items['name'] ?> <b>(<?= $items['ukuran'] ?>)</b></a></h5><span class="text-muted font-weight-normal font-italic">Category: Fashion</span>
+                        <h5 class="mb-0"> <a href="#" class="text-dark d-inline-block"><?= $items['name'] ?> <b>(<?= $items['ukuran'] ?>)</b></a></h5><span class="text-muted font-weight-normal font-italic">Category: <?= $items['nama_cat'] ?></span>
                       </div>
                     </div>
                   </th>

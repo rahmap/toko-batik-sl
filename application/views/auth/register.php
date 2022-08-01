@@ -33,9 +33,15 @@
                   <?= form_error('no_hp', '<small class="text-danger pl-3">', '</small>') ?>
                 </div>
               </div>
-              <div class="form-group">
-                <input type="text" name="address" minlength="5" maxlength="100" value="<?= set_value('address') ?>" class="form-control form-control-user" id="address" placeholder="Address">
-                <?= form_error('address', '<small class="text-danger pl-3">', '</small>') ?>
+              <div class="form-group row">
+                <div class="col-sm-8 mb-3 mb-sm-0">
+                  <input type="text" name="address" minlength="5" maxlength="100" value="<?= set_value('address') ?>" class="form-control form-control-user" id="address" placeholder="Address">
+                  <?= form_error('address', '<small class="text-danger pl-3">', '</small>') ?>
+                </div>
+                <div class="col-sm-4">
+                  <input type="text" name="zip_code" value="<?= set_value('zip_code') ?>" minlength="2" maxlength="15" class="form-control form-control-user" id="zip_code" placeholder="kode Pos">
+                  <?= form_error('zip_code', '<small class="text-danger pl-3">', '</small>') ?>
+                </div>
               </div>
               <div class="form-group row">
                 <div class="col-sm-6 mb-3 mb-sm-0">

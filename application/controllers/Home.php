@@ -15,7 +15,6 @@ class Home extends CI_Controller
 	{
 //		dd($this->Home_Model->getTopSales());
 		$data['popular'] = $this->Home_Model->getProdukPopuler();
-		$data['tags'] = $this->Produk_Model->getAllTags();
 		$data['cat'] = $this->Produk_Model->getAllCat();
 		// dd($data['cat']);
 		$data['title'] = 'Batik - Home';
@@ -140,6 +139,7 @@ class Home extends CI_Controller
 		$data = [
 			'title' => 'Batik - Keranjang'
 		];
+    $data['cat'] = $this->Produk_Model->getAllCat();
 		$this->load->view('produk/cart', $data);
 	}
 }

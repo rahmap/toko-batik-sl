@@ -195,22 +195,6 @@
 														</div>
 													</div>
 												</div>
-												<div class='col-sm-4'>
-													Tags Produk
-													<div class="form-group">
-														<div class='input-group'>
-															<select required multiple name="tags[]" class="form-control tags">
-																<option value=""></option>
-																<?php foreach ($tag as $key) : ?>
-																	<option value="<?= $key['id_tags'] ?>" <?= set_select('tags[]', $key['id_tags']); ?>><?= $key['nama_tag'] ?></option>
-																<?php endforeach; ?>
-															</select>
-															<span class="input-group-addon">
-																	<span class="glyphicon glyphicon-calendar"></span>
-															</span>
-														</div>
-													</div>
-												</div>
 											</div>
 										</div>
 										<div class="col-md-12 col-sm-12 col-xs-12">

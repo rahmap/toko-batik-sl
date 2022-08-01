@@ -39,20 +39,7 @@ class Produk_Model extends CI_Model
 
     Public function getAllCat()
     {
-        // $this->db->select('nama_cat');
-        // // return $this->db->get_where('kategori', ['active' => 1])->result_array();
-        // return $this->db->get('kategori')->result_array();
-
-        $this->db->select([
-            'parent_kategori.parent_kategori_nama',
-            'GROUP_CONCAT(kategori.nama_cat) as sub_kategori',
-        ]);
-        $this->db->join('parent_kategori', 'parent_kategori_kategori.parent_kategori_id=parent_kategori.parent_kategori_id');
-        $this->db->join('kategori', 'parent_kategori_kategori.kategori_id=kategori.id_cat');
-        $this->db->group_by('parent_kategori.parent_kategori_id');
-        $data = $this->db->get('parent_kategori_kategori')->result_array();
-        // dd($data);
-        return $data;
+        return $this->db->get_where('kategori', ['active' => 1])->result_array();
     }
 
     public function cariProduk($jenis, $nama, $limit, $start)

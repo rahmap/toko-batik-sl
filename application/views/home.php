@@ -57,7 +57,7 @@
 
       <!--First slide-->
       <div class="carousel-item active">
-        <div class="view" style="background-image: url('https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/8-col/img%282%29.jpg'); background-repeat: no-repeat; background-size: cover;">
+        <div class="view" style="background-image: url('https://blog-static.mamikos.com/wp-content/uploads/2020/10/Batik-indonesia.jpeg'); background-repeat: no-repeat; background-size: cover;">
 
           <!-- Mask & flexbox options-->
           <div class="mask rgba-black-strong d-flex justify-content-center align-items-center">
@@ -88,7 +88,7 @@
 
       <!--Second slide-->
       <div class="carousel-item">
-        <div class="view" style="background-image: url('https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/8-col/img%283%29.jpg'); background-repeat: no-repeat; background-size: cover;">
+        <div class="view" style="background-image: url('https://yoexplore.co.id/wp-content/uploads/2020/10/batik.jpg'); background-repeat: no-repeat; background-size: cover;">
 
           <!-- Mask & flexbox options-->
           <div class="mask rgba-black-strong d-flex justify-content-center align-items-center">
@@ -120,7 +120,7 @@
 
       <!--Third slide-->
       <div class="carousel-item">
-        <div class="view" style="background-image: url('https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/8-col/img%285%29.jpg'); background-repeat: no-repeat; background-size: cover;">
+        <div class="view" style="background-image: url('https://www.inouiprint.com/wp-content/uploads/2022/03/batik-print.png'); background-repeat: no-repeat; background-size: cover;">
 
           <!-- Mask & flexbox options-->
           <div class="mask rgba-black-strong d-flex justify-content-center align-items-center">
@@ -136,7 +136,7 @@
               </p>
 
               <p class="mb-4 d-none d-md-block">
-                <strong>Batik Storeo hadir dengan berbagai kemudahan untuk anda dalam yang berkeinginan tampil 
+                <strong>Batik Store hadir dengan berbagai kemudahan untuk anda dalam yang berkeinginan tampil
                 beda dan keran.</strong>
               </p>
             </div>

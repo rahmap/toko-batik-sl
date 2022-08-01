@@ -123,7 +123,7 @@
 														data-target=".modal-detail"
 
 														data-id_target="<?= $item['id_orders'] ?>"
-														data-status_order="<?= $item['status_order'] ?>"
+														data-status_order="<?= $item['status_order'] == 'settlement'? 'Lunas' : $item['status_order'] ?>"
 
 														data-kurir="<?= $item['kurir'] ?>"
 														data-service="<?= $item['service'] ?>"
@@ -194,7 +194,7 @@
 													<td>Rp <?= number_format($item['gross_amount'], 0, ',', '.') ?></td>
 													<?php	$newBank = explode('-', $item['bank']); ?>
 													<td><?= strtoupper((isset($newBank[0]))? $newBank[0] : $item['bank']) ?></td>
-													<td><?= $item['status_order'] ?></td>
+													<td><?= $item['status_order'] == 'settlement'? 'Lunas' : $item['status_order'] ?></td>
 													<td><?= $item['keterangan'] ?></td>
 													<td class="text-center">
 														<a href="" class="text-info sett_detail" 
@@ -202,7 +202,7 @@
 															data-target=".modal-detail"
 
 															data-id_target="<?= $item['id_orders'] ?>"
-															data-status_order="<?= $item['status_order'] ?>"
+															data-status_order="<?= $item['status_order'] == 'settlement'? 'Lunas' : $item['status_order'] ?>"
 
 															data-kurir="<?= $item['kurir'] ?>"
 															data-service="<?= $item['service'] ?>"
@@ -265,7 +265,7 @@
 													<td>Rp <?= number_format($item['gross_amount'], 0, ',', '.') ?></td>
 													<?php	$newBank = explode('-', $item['bank']); ?>
 													<td><?= strtoupper((isset($newBank[0]))? $newBank[0] : $item['bank']) ?></td>
-													<td><?= $item['status_order'] ?></td>
+													<td><?= $item['status_order'] == 'settlement'? 'Lunas' : $item['status_order'] ?></td>
 													<td><?= $item['keterangan'] ?></td>
 												</tr>
 											<?php endforeach; ?>
@@ -308,7 +308,7 @@
 													<td><?= $item['nama'] ?></td>
 													<td><?= date('d/m/Y H:i', $item['tanggal_order']); ?></td>
 													<td>Rp <?= number_format($item['gross_amount'], 0, ',', '.') ?></td>
-													<td><?= $item['status_order'] ?></td>
+													<td><?= $item['status_order'] == 'settlement'? 'Lunas' : $item['status_order'] ?></td>
 													<td><?= $item['status_pengiriman'] ?></td>
 													<td><?= $item['keterangan'] ?></td>
 												</tr>
@@ -538,7 +538,7 @@
 						})
 					})
 					console.log($(this).data('status_order'));
-					if($(this).data('status_order') == 'settlement'){
+					if($(this).data('status_order') == 'settlement' || $(this).data('status_order') == 'Lunas'){
 						$('#batalkan-order').show();
 						$('#batalkan-order').click(function(){
 							$('.id_orders_batalkan').val(id_orders);

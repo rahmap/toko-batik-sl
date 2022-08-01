@@ -119,11 +119,9 @@ class Admin extends CI_Controller
 
     if ($this->form_validation->run() == false) {
       $data['title'] = 'Add Products - Admin';
-      $data['tag'] = $this->Admin_Model->getCatTag('tags', ['active' => 1]);
       $data['cat'] = $this->Admin_Model->getCatTag('kategori', ['active' => 1]);
       $this->load->view('admin/product/addProduct', $data);
     } else if ($this->form_validation->run() == true) {
-      $tags = $this->input->post('tags', true); //Tags Produk
       if (!empty($_FILES['foto']['name'])) {
         $data = [
           'unik_produk' => $this->freeM->getUnikProduk($this->input->post('kategori'), true),
@@ -147,7 +145,7 @@ class Admin extends CI_Controller
           'berat' => $this->input->post('berat', true),
           'aktif' => 1
         ];
-        if ($this->Admin_Model->inputProduct($data, $tags, $detail)) {
+        if ($this->Admin_Model->inputProduct($data, $detail)) {
           $this->freeM->getSweetAlert('message', 'Success!', 'Data Produk berhasil ditambahkan.', 'success');
         } else {
           $this->freeM->getSweetAlert('message', 'Upss!', 'Data Produk gagal ditambahkan.', 'error');
@@ -292,10 +290,6 @@ class Admin extends CI_Controller
         $tags[$produk['id_produk']] = [];
       }
       //Push value array
-      array_push($tags[$produk['id_produk']], [
-        'id_tags' => $produk['id_tags'],
-        'nama_tag' => $produk['nama_tag']
-      ]);
       //Membuat result array baru
       $newAr[$produk['id_produk']] = [
         'id_produk' => $produk['id_produk'],
@@ -313,10 +307,7 @@ class Admin extends CI_Controller
         'stok' => $produk['stok'],
         'diskon' => $produk['diskon'],
         'ukuran' => $produk['ukuran'],
-        'aktif' => $produk['aktif'],
-        'id_tags_produk' => $produk['id_tags_produk'],
-        'ket_tag' => $produk['ket_tag'],
-        'nama_tag' => $tags[$produk['id_produk']]
+        'aktif' => $produk['aktif']
       ];
     }
 
@@ -329,7 +320,6 @@ class Admin extends CI_Controller
       $data['aktifProduk'] =$this->Admin_Model->countProduk('1');
       $data['allProduk'] = $this->Admin_Model->countProduk();
       $data['nonaktif'] = $this->Admin_Model->countProduk('0');
-		$data['tag'] = $this->Admin_Model->getCatTag('tags', ['active' => 1]);
 		$data['cat'] = $this->Admin_Model->getCatTag('kategori', ['active' => 1]);
     $this->load->view('admin/product/data_product', $data);
   }
@@ -493,9 +483,6 @@ class Admin extends CI_Controller
       $data['title'] = 'Tambah Kategori Produk - Admin';
       $data['categoryAktif'] = $this->Admin_Model->getAllCategory(1);
       $data['categoryNonaktif'] = $this->Admin_Model->getAllCategory(0);
-
-      $data['parentKategori'] = $this->Admin_Model->getAllParentCategory();
-      $data['parentKategoriOnly'] = $this->Admin_Model->getAllParentCategoryWithoutSub();
       $this->load->view('admin/product/addCategory', $data);
     } else if ($this->form_validation->run() == true) {
       $data = [
@@ -704,30 +691,8 @@ class Admin extends CI_Controller
       'diskon' => clean($this->input->post('diskon', true)),
       'ukuran' => $newUk
     ];
-    $input_tag = $this->input->post('tag', true);
-		if(is_null($input_tag)){
-			$dataDb = $this->Admin_Model->getProdukTag($id);
-			if($dataDb == null){
-				$newTag = [];
-			} else {
-				foreach ($dataDb as $key){
-					$newTag[] = [
-						'id_tags' => (int) $key['id_tags'],
-						'id_produk' => (int) $id
-					];
-				}
-			}
-		} else {
-			foreach ($input_tag as $key){
-				$newTag[] = [
-					'id_tags' => (int) $key,
-					'id_produk' => (int) $id
-				];
-			}
-		}
-//		dd($newTag);
-    // var_dump([$produk, $detail]);die;
-    if($this->Admin_Model->updateProduk($produk, $detail, $newTag, $id, $unique)){
+
+    if($this->Admin_Model->updateProduk($produk, $detail, $id, $unique)){
     	if($fotoTambahan != $dataProduk['gambar_tambahan']){
 				if($dataProduk['gambar_tambahan'] != NULL){
 					if (file_exists('./assets/images/produk/'.$dataProduk['gambar_tambahan'])) {

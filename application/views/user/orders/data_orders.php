@@ -113,7 +113,7 @@
 													<?php } else { ?>
 														<td><?= $item['va_number'] ?></td>
 													<?php } ?>
-													<td><?= $item['status_order'] ?></td>
+													<td><?= $item['status_order'] == 'settlement'? 'Lunas' : $item['status_order'] ?></td>
 													<td><?= $item['keterangan'] ?></td>
 													<td class="text-center">
 														<a href="" class="text-info sett_detail" 
@@ -187,7 +187,7 @@
 													<?php } else { ?>
 														<td><?= $item['va_number'] ?></td>
 													<?php } ?>
-													<td><?= $item['status_order'] ?></td>
+													<td><?= $item['status_order'] == 'settlement'? 'Lunas' : $item['status_order'] ?></td>
 													<td><?= $item['keterangan'] ?></td>
 													<td class="text-center">
 														<a href="" class="text-info sett_detail" 
@@ -261,7 +261,7 @@
 													<?php } else { ?>
 														<td><?= $item['va_number'] ?></td>
 													<?php } ?>
-													<td><?= $item['status_order'] ?></td>
+													<td><?= $item['status_order'] == 'settlement'? 'Lunas' : $item['status_order'] ?></td>
 													<td><?= $item['keterangan'] ?></td>
 												</tr>
 											<?php endforeach; ?>
@@ -303,7 +303,7 @@
 													<td><?= $item['id_orders'] ?></td>
 													<td><?= date('d/m/Y H:i', $item['tanggal_order']); ?></td>
 													<td>Rp <?= number_format($item['gross_amount'], 0, ',', '.') ?></td>
-													<td><?= $item['status_order'] ?></td>
+													<td><?= $item['status_order'] == 'settlement'? 'Lunas' : $item['status_order'] ?></td>
 													<td><?= $item['status_pengiriman'] ?></td>
 													<td><?= $item['keterangan'] ?></td>
 													<td class="text-center">
@@ -476,7 +476,7 @@
 					$('.dibayar_pada').text(($(this).data('dibayar_pada') == '')? 'PENDING' : $(this).data('dibayar_pada') )
 					
 					$('#lihatItem').click(function(){
-						console.log(id_orders);
+						// console.log(id_orders);
          		 $.ajax({  
 							url: "<?= base_url() ?>" + 'dashboard/customers/setOrderItem',  
 							method:'POST',  

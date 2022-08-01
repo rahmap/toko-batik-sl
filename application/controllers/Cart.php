@@ -28,6 +28,7 @@ class Cart extends CI_Controller
       $data = array(
         'id' => $this->input->post('produk_id', true).'-'.rand(1,999),
         'unik_produk' => $this->input->post('produk_id', true),
+        'nama_cat' => $this->input->post('nama_cat', true),
         'name' => $this->input->post('produk_nama', true),
         'price' => $this->input->post('produk_harga', true) - $diskon,
         'diskon' => $this->input->post('diskon', true),

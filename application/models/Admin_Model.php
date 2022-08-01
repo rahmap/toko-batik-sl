@@ -80,20 +80,13 @@ class Admin_Model extends CI_Model
         return $this->db->affected_rows();
     }
 
-    public function inputProduct($data, $tags, $detail)
+    public function inputProduct($data, $detail)
     {
         $this->db->trans_begin();
         $this->db->insert('produk', $data);
         $id_produk = $this->db->insert_id();
         $detail['id_produk'] = $id_produk;
         $this->db->insert('detail_produk', $detail);
-        foreach ($tags as $tag) {
-            $dataTags = [
-                'id_produk' => $id_produk,
-                'id_tags' => $tag,
-            ];
-            $this->db->insert('tags_produk', $dataTags);
-        }
         if ($this->db->trans_status() === false) {
             $this->db->trans_rollback();
             return 0;
@@ -120,8 +113,6 @@ class Admin_Model extends CI_Model
     public function getAllProduk()
     {
         $this->db->join('detail_produk', 'detail_produk.id_produk=produk.id_produk', 'INNER');
-        $this->db->join('tags_produk', 'tags_produk.id_produk=produk.id_produk', 'LEFT');
-        $this->db->join('tags', 'tags_produk.id_tags=tags.id_tags', 'LEFT');
         $this->db->join('kategori', 'kategori.id_cat=produk.id_cat', 'LEFT');
         return $this->db->get_where('produk', ['produk.delete_at' => 0])->result_array();
     }
@@ -131,36 +122,8 @@ class Admin_Model extends CI_Model
         return $this->db->get_where($tabel, $field)->result_array();
     }
 
-    public function getProdukTag($id)
-		{
-			return $this->db->get_where('tags_produk', ['tags_produk.id_produk' => $id])->result_array();
-		}
-
     // @begin Tag Produk
-    public function getAllTag($status)
-    {
-        $this->db->where('active', $status);
-        return $this->db->get('tags')->result_array();
-    }
 
-    public function inputTagProduk($data)
-    {
-        $this->db->insert('tags', $data);
-        return $this->db->affected_rows();
-    }
-
-    public function updateStatusTag($id, $status)
-    {
-        $this->db->where('id_tags', $id);
-        $this->db->update('tags', ['active' => $status]);
-        return $this->db->affected_rows();
-    }
-
-    public function deleteTag($id)
-    {
-        $this->db->delete('tags', ['id_tags' => $id]);
-        return $this->db->affected_rows();
-    }
     // @end Tag Produk
 
     // @begin Category Produk
@@ -249,7 +212,7 @@ class Admin_Model extends CI_Model
 			return $data['id_produk'];
 		}
 
-    public function updateProduk($produk, $detail, $tag, $id, $id_unik)
+    public function updateProduk($produk, $detail, $id, $id_unik)
     {
         $this->db->trans_begin();
 				if($id == null){
@@ -257,11 +220,6 @@ class Admin_Model extends CI_Model
 					$idProduk = $dataProduk['id_produk'];
 				} else {
 					$idProduk = $id;
-				}
-
-        if($tag != null){
-					$this->db->delete('tags_produk', ['id_produk' => $idProduk]);
-					$this->db->insert_batch('tags_produk', $tag);
 				}
         $this->db->update('produk', $produk, ['id_produk' => $idProduk]);
         $this->db->update('detail_produk', $detail, ['id_produk' => $idProduk]);

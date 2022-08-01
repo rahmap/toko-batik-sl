@@ -86,6 +86,7 @@ class Auth extends CI_Controller
         if (!$this->session->has_userdata('email')) {
             $this->form_validation->set_rules('fname', 'First Name', 'required|trim|min_length[3]|alpha_numeric_spaces|max_length[20]');
             $this->form_validation->set_rules('lname', 'Last Name', 'required|trim|min_length[1]|alpha_numeric_spaces|max_length[20]');
+            $this->form_validation->set_rules('zip_code', 'Kode Pos', 'required|trim|min_length[2]|alpha_numeric_spaces|max_length[15]');
             $this->form_validation->set_rules('email', 'Email Address', 'required|trim|valid_email|is_unique[data_user.email]', [
                 'is_unique' => 'This email already exist'
             ]); //UNTUK TESTING, PASSWORD MIN LENGTH 1
@@ -107,6 +108,7 @@ class Auth extends CI_Controller
                 $data = [
                     'nama' => ucwords($namaUser),
                     'no_hp' => $this->input->post('no_hp', true),
+                    'zip_code' => $this->input->post('zip_code', true),
                     'address' => $this->input->post('address', true),
                     'email' => htmlspecialchars($this->input->post('email', true)),
                     'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),

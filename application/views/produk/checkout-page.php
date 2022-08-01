@@ -102,7 +102,7 @@
               <div class="form-group">
                 <label class="control-label col-sm-3">Kode Pos</label>
                 <div class="col-sm-12">          
-                  <input type="text" class="form-control" id="kode_pos" name="kode_pos" required>
+                  <input type="text" class="form-control" value="<?= $dataUser['zip_code'] ?>" id="kode_pos" name="kode_pos" required>
                 </div>
                 <?= form_error('kode_pos', '<small class="text-danger pl-3">', '</small>') ?>
               </div>

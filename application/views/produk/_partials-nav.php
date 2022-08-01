@@ -37,19 +37,27 @@
         <!-- Left -->
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <a class="nav-link waves-effect" href="<?= base_url('contact') ?>" target="_blank">Contact</a>
+            <a class="nav-link waves-effect" href="<?= base_url('contact') ?>">Contact</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link waves-effect" href="<?= base_url('about') ?>" target="_blank">About
+            <a class="nav-link waves-effect" href="<?= base_url('about') ?>">About
             </a>
           </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">Kategori
+            </a>
+            <div class="dropdown-menu dropdown-default" aria-labelledby="navbarDropdownMenuLink-333">
+              <?php foreach($cat as $key): ?>
+                <a class="dropdown-item" href="<?= base_url('produk/cari/kategori/'.strtolower($key['nama_cat'])) ?>"><?= $key['nama_cat'] ?></a>
+              <?php endforeach; ?>
+            </div>
           <li class="nav-item">
-            <div class="dropdown">
-              <a href="<?= base_url('keranjang') ?>" target="_blank" class="nav-link waves-effect">
-                <i class="fas fa-shopping-cart"></i>
-                <span class="clearfix d-none d-sm-inline-block"> Keranjang </span>
-                <span class="badge red z-depth-1 mr-1"> <?= count($this->cart->contents()); ?> </span>
-              </a>
+            <form class="form-inline" action="<?= base_url('produk/cari_produk') ?>" id="form-keyword" method="get">
+              <div class="md-form my-0">
+                <input class="form-control mr-sm-2" id="keyword" name="keyword" type="text" placeholder="Cari nama batik.." aria-label="Cari nama batik..">
+              </div>
+            </form>
           </li>
         </ul>
 
@@ -70,7 +78,7 @@
               '<li class="nav-item mr-2">'; ?>
             <a href="
               <?= ($this->session->level == 'Member') ?  base_url('dashboard/customers') : base_url('dashboard/admin')
-                ?>" class="nav-link border border-light rounded waves-effect" target="_blank">
+                ?>" class="nav-link border border-light rounded waves-effect">
               <i class="fab fa-github mr-2"></i>Dashboard
             </a>
           <?= '</li>';
@@ -92,7 +100,14 @@
           }
 
           ?>
-
+          <li class="nav-item">
+            <div class="dropdown">
+              <a href="<?= base_url('keranjang') ?>" class="nav-link waves-effect">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="clearfix d-none d-sm-inline-block"> Keranjang </span>
+                <span class="badge red z-depth-1 mr-1"> <?= count($this->cart->contents()); ?> </span>
+              </a>
+          </li>
         </ul>
 
       </div>
@@ -100,3 +115,14 @@
     </div>
   </nav>
   <!-- Navbar -->
+  <script>
+      //let a = ''
+      //$('#keyword').on('input', function() {
+      //    a = $(this).val();
+      //});
+      //document.getElementById('keyword').onkeydown = function(e){
+      //    if(e.keyCode == 13){
+      //        window.location.href = '<?//= base_url('produk/cari_produk/') ?>//' + a
+      //    }
+      //}
+  </script>

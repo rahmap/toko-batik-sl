@@ -25,7 +25,6 @@ class Produk extends CI_Controller
       if ($data['produk']) {
         $data['title'] = 'Produk - ' . ucwords($data['produk']['nama_produk']);
         $data['ukuranNew'] = explode(', ', $data['produk']['ukuran']);
-        $data['tags'] = $this->Produk_Model->getTagsById(decrypt_url($id));
         $this->load->view('produk/product-page', $data);
       } else {
         redirect('');
@@ -68,7 +67,6 @@ class Produk extends CI_Controller
       redirect('home');
     }
     $jenis = $this->uri->segment(3);
-    $data['tags'] = $this->Produk_Model->getAllTags();
     $data['cat'] = $this->Produk_Model->getAllCat();
     $data['title'] = 'Batik - Pencarian ' . ucwords($nama);
     $data['totData'] = $this->Produk_Model->hitungProdukKategori($jenis, $nama);
@@ -93,11 +91,10 @@ class Produk extends CI_Controller
 
   public function cari_produk($keyword = null)
   {
-    $keyword = $this->uri->segment(3);
+    $keyword =  $this->input->get('keyword', true);
     if ($keyword == null) {
       redirect('home');
     }
-    $data['tags'] = $this->Produk_Model->getAllTags();
     $data['cat'] = $this->Produk_Model->getAllCat();
     $data['title'] = 'Batik - Pencarian ' . str_replace('%20', ' ', ucwords($keyword));
     $data['totData'] = $this->Produk_Model->hitungProdukKeyword($keyword);

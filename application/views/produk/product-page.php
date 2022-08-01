@@ -78,25 +78,6 @@
                   <span class="badge red mr-1"><?=$produk['nama_cat']?></span>
                 </a>
               </p>
-              <p class="lead font-weight-bold">Tags
-								<?php if($tags == NULL): ?>
-									<a href="">
-										<span class="badge purple mr-1">Tidak Ada</span>
-									</a>
-								<?php else: ?>
-									<?php if (count($tags) > 1): ?>
-										<?php foreach ($tags as $tag): ?>
-											<a href="">
-												<span class="badge purple mr-1"><?=$tag['nama_tag']?></span>
-											</a>
-										<?php endforeach;?>
-									<?php else: ?>
-										<a href="">
-											<span class="badge purple mr-1"><?=$tags['nama_tag']?></span>
-										</a>
-									<?php endif;?>
-								<?php endif; ?>
-              </p>
             </div>
             <p class="lead font-weight-bold">Ukuran
               <?php foreach ($ukuranNew as $uk): ?>
@@ -154,6 +135,7 @@
 
                 <input hidden type="text" name="produk_nama" value="<?=$produk['nama_produk']?>">
                 <input hidden type="text" name="diskon" value="<?=$produk['diskon']?>">
+                <input hidden type="text" name="nama_cat" value="<?=$produk['nama_cat']?>">
                 <input hidden type="text" name="produk_id" value="<?=decrypt_url($this->uri->segment('3'))?>">
                 <input hidden type="text" name="produk_harga" value="<?=$produk['harga_produk']?>">
                 <input hidden type="number" name="berat" value="<?=$produk['berat']?>">

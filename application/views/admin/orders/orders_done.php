@@ -259,7 +259,7 @@
 					$('.tot_all').text('Rp ' + formatMoney($(this).data('tot_all')));
 					$('.dibayar_pada').text(($(this).data('dibayar_pada') == '')? 'PENDING' : $(this).data('dibayar_pada') );
 					$('#lihatItem').click(function(){
-						console.log(id_orders);
+						// console.log(id_orders);
          		 $.ajax({  
 							url: "<?= base_url() ?>" + 'dashboard/admin/setOrderItem',  
 							method:'POST',  
