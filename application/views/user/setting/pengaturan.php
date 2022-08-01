@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
 	<?php $this->load->view('user/_partials/user_header') ?>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
   </head>
 
   <body class="nav-md">
@@ -106,7 +107,7 @@
                               <form action="<?= base_url('dashboard/customers/updateProfile') ?>" method="POST" enctype="multipart/form-data">
                               
                                 <label for="nama">Nama :</label>
-                                <input type="text" minlength="3" maxlength="25" id="nama" value="<?= $this->session->nama ?>" class="form-control" name="nama" required />
+                                <input type="text" minlength="3" maxlength="50" id="nama" value="<?= $this->session->nama ?>" class="form-control" name="nama" required />
                                 <br/>
                                 <label for="no_hp">Phone Number :</label>
                                 <input type="text" minlength="8" maxlength="15" id="no_hp" value="<?= $dataUser['no_hp'] ?>" class="form-control" name="no_hp" required />
@@ -115,6 +116,25 @@
                                 <label for="zip_code">Kode Pos :</label>
                                 <input type="text" minlength="2" maxlength="15" id="zip_code" value="<?= $dataUser['zip_code'] ?>" class="form-control" name="zip_code" required />
                                 <?= form_error('zip_code', '<small class="text-danger pl-3">', '</small>') ?>
+                                <br/>
+                                <label>Provinsi :</label>
+                                <select class="form-control" id="provinsi" name="provinsi">
+                                  <?php foreach ($provinsi->rajaongkir->results as $prov): ?>
+                                    <option data-id_prov="<?= $prov->province_id ?>" value="<?= $prov->province ?>"
+                                      <?= (!empty($dataUser['provinsi']) AND $dataUser['provinsi'] == $prov->province)? 'selected' : '' ?>
+                                    ><?= $prov->province ?></option>
+                                  <?php endforeach; ?>
+                                </select>
+                                <?= form_error('provinsi', '<small class="text-danger pl-3">', '</small>') ?>
+                                <br/>
+                                <label>Kabupaten :</label>
+                                <select required id="kabupaten" name="kabupaten" class="form-control kabupaten">
+                                  <option> - </option>
+                                </select>
+                                <br/>
+                                <label for="kabupaten">Kecamatan :</label>
+                                <input type="text" minlength="3" maxlength="100" id="kecamatan" value="<?= $dataUser['kecamatan'] ?>" class="form-control" name="kecamatan" required />
+                                <?= form_error('kecamatan', '<small class="text-danger pl-3">', '</small>') ?>
                                 <br/>
                                 <label for="address">Alamat :</label>
                                 <input type="text" minlength="5" maxlength="100" id="address" value="<?= $dataUser['address'] ?>" class="form-control" name="address" required />
@@ -185,5 +205,44 @@
       </div>
 	</div>
 	<?php $this->load->view('user/_partials/user_js') ?>
+    <script>
+        $(document).ready(function (){
+            const kabupaten = $('#kabupaten');
+            const provinsi = $('#provinsi');
+            const BASE_URL = "<?php echo base_url() ?>";
+            let kabupatenVal = "<?= $dataUser['kabupaten'] ?>"
+
+            $(provinsi).on('change', function () {
+                $(kabupaten).attr('disabled', true);
+                onLoadRajaongkir()
+            })
+
+            onLoadRajaongkir()
+
+            function onLoadRajaongkir(){
+                $.ajax({
+                    url: BASE_URL + 'dashboard/customers/getKabupaten/'+ provinsi.find(':selected').data('id_prov'),
+                    dataType : "json",
+                    success: function(result) {
+
+                        $(kabupaten).children('option').remove();
+                        let res = JSON.parse(result)
+                        $(kabupaten).append(res.rajaongkir.results.map(function (sObj) {
+                            return '<option value="' +
+                                sObj.city_name + '">' +
+                                sObj.city_name + '</option>'
+                        }));
+                    },
+                    complete: function (params) {
+                        $(kabupaten).attr('disabled', false);
+                        $(`#kabupaten option[value="${kabupatenVal}"]`).attr('selected', 'selected')
+                    },
+                    error: function(err){
+                        console.log(err);
+                    }
+                })
+            }
+        })
+    </script>
   </body>
 </html>

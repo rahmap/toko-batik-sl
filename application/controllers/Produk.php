@@ -36,6 +36,10 @@ class Produk extends CI_Controller
 
   public function checkout()
   {
+    if (!$this->session->has_userdata('email')) {
+      $this->freeM->getAlertBS('message', 'danger', 'Error!', 'Silahkan login dulu.');
+      redirect('auth/login');
+    }
     $dataUser = $this->Admin_Model->getDetailUsers();
     if (count($this->cart->contents()) == 0) {
       if ($this->session->level == 'Admin' or $this->session->level == 'Owner') {
@@ -50,8 +54,16 @@ class Produk extends CI_Controller
       endforeach;
       $data['berat'] = $data['berat'] / 1000;
       if ($this->session->email) {
+        $this->load->library('rajaongkir');
         $data['title'] = 'Batik - Pembayaran';
         $data['dataUser'] = $dataUser;
+        $data['provinsi'] = json_decode($this->rajaongkir->province());
+        $data['address_pengiriman'] = '';
+        if($dataUser['address'] and $dataUser['provinsi'] and $dataUser['kabupaten']){
+          $data['address_pengiriman'] = $dataUser['provinsi'].', '.$dataUser['kabupaten'].', '.$dataUser['kecamatan'].', '.$dataUser['address'];
+        } else {
+          $data['address_pengiriman'] = $dataUser['address'];
+        }
 //        dd($dataUser);
         $this->load->view('produk/checkout-page', $data);
       } else {
@@ -116,6 +128,17 @@ class Produk extends CI_Controller
 
     $this->load->view('produk/cari-produk-keyword', $data);
   }
+  public function getKabupaten($prov_id = null)
+  {
+    // $this->freeM->cek_ajax();
+    $this->load->library('rajaongkir');
+    // echo 'halo';
+    header('Content-Type: application/json');
+    header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Credentials: true");
 
+
+    echo json_encode($this->rajaongkir->city($prov_id));
+  }
 
 }

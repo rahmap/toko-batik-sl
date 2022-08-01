@@ -1,44 +1,70 @@
 $(document).ready(function () {
-	var BASE_URL = site_url; //Jika online diganti nama domain
+	const BASE_URL = site_url; //Jika online diganti nama domain
+	const kabupaten = $('#kota_tujuan');
+	const provinsi = $('#provinsi');
+	let KABUPATEN_USER = kabupatenVal;
 
 	$(function () {
-		$('[data-toggle="infoBtnBayar"]').tooltip()
-	})
+		$('[data-toggle="infoBtnBayar"]').tooltip();
+	});
 	$(function () {
-		$('[data-toggle="infoBtnOngkir"]').tooltip()
-	})
+		$('[data-toggle="infoBtnOngkir"]').tooltip();
+	});
 	$('#dataLengkap').change(function () {
 		if (this.checked) {
-			$('#cekOngkir').prop('disabled', false) //aktif button cek ongkir
+			$('#cekOngkir').prop('disabled', false); //aktif button cek ongkir
 
-			$('#alamat').prop('readonly', true)
-			$('#kode_pos').prop('readonly', true)
-			$('#nohp').prop('readonly', true)
-			$('#penerima').prop('readonly', true)
+			$('#alamat').prop('readonly', true);
+			$('#kode_pos').prop('readonly', true);
+			$('#nohp').prop('readonly', true);
+			$('#penerima').prop('readonly', true);
 		} else {
-			$('#cekOngkir').prop('disabled', true) //nonaktif button cek ongkir
+			$('#cekOngkir').prop('disabled', true); //nonaktif button cek ongkir
 			$('#btnBayar').prop('disabled', true);
-			$('#alamat').prop('readonly', false)
-			$('#kode_pos').prop('readonly', false)
-			$('#nohp').prop('readonly', false)
-			$('#penerima').prop('readonly', false)
-		}
-
-	})
-
-	$('#kota_tujuan').select2({
-		placeholder: 'Pilih Kota Tujuan',
-		language: "id"
-	});
-
-	$.ajax({
-		type: "GET",
-		dataType: "html",
-		url: BASE_URL + 'ongkir/data_kota/kotatujuan',
-		success: function (msg) {
-			$("select#kota_tujuan").html(msg);
+			$('#alamat').prop('readonly', false);
+			$('#kode_pos').prop('readonly', false);
+			$('#nohp').prop('readonly', false);
+			$('#penerima').prop('readonly', false);
 		}
 	});
+
+	// $('#kota_tujuan').select2({
+	// 	placeholder: 'Pilih Kota Tujuan',
+	// 	language: "id"
+	// });
+
+	$(provinsi).on('change', function () {
+		kabupaten.attr('disabled', true);
+		onLoadRajaongkir();
+	});
+
+	onLoadRajaongkir();
+
+	function onLoadRajaongkir() {
+		$.ajax({
+			type: "GET",
+			dataType: "json",
+			url: BASE_URL + 'produk/getKabupaten/' + provinsi.find(':selected').data('id_prov'),
+			success: function (result) {
+
+				$(kabupaten).children('option').remove();
+				let res = JSON.parse(result);
+				$(kabupaten).append(res.rajaongkir.results.map(function (sObj) {
+					return '<option value="' +
+						sObj.city_id + '" data-kab= "' + sObj.city_name + '">' +
+						sObj.city_name + '</option>';
+				}));
+			},
+			complete: function (params) {
+				kabupaten.attr('disabled', false);
+				$(`#kota_tujuan option[data-kab=${KABUPATEN_USER}]`).attr('selected', 'selected');
+			},
+			error: function (err) {
+				console.log(err);
+			}
+		});
+	}
+
 
 	$('#ongkir').submit(function (e) {
 		var dataForm = $(this).serialize();
@@ -65,7 +91,7 @@ $(document).ready(function () {
 							Swal.fire('Upsss!', data.responseText);
 						} else {
 							$('#btnBayar').prop('disabled', false);
-							Swal.fire('Horayy!', 'Silahkan Lanjutkan Pembayaran');
+							Swal.fire('', 'Silahkan Lanjutkan Pembayaran');
 						}
 					}
 				});
@@ -88,18 +114,18 @@ $(document).ready(function () {
 				sObj.cost.map(a => a.value) + '" data-est="' +
 				sObj.cost.map(a => a.etd) + '" value="' +
 				sObj.service + '">' +
-				sObj.service + '</option>'
+				sObj.service + '</option>';
 		}));
 
 		$('.serviceRO :nth-child(1)').prop('selected', true);
-		$('#ROest').text('Estimasi ' + $('.serviceRO').find(':selected').data('est') + ' Hari')
-		$('#ROcost').text('Rp ' + formatMoney($('.serviceRO').find(':selected').data('harga')))
-		$('#totalFinal').text('Rp ' + formatMoney($('.serviceRO').find(':selected').data('totalfix')))
+		$('#ROest').text('Estimasi ' + $('.serviceRO').find(':selected').data('est') + ' Hari');
+		$('#ROcost').text('Rp ' + formatMoney($('.serviceRO').find(':selected').data('harga')));
+		$('#totalFinal').text('Rp ' + formatMoney($('.serviceRO').find(':selected').data('totalfix')));
 		// console.log($('.serviceRO').find(':selected').data('totalfix'))
 		$('.serviceRO').on('change', function () {
-			$('#ROest').text('Estimasi ' + $('.serviceRO').find(':selected').data('est') + ' Hari')
-			$('#ROcost').text('Rp ' + formatMoney($('.serviceRO').find(':selected').data('harga')))
-			$('#totalFinal').text('Rp ' + formatMoney($('.serviceRO').find(':selected').data('totalfix')))
+			$('#ROest').text('Estimasi ' + $('.serviceRO').find(':selected').data('est') + ' Hari');
+			$('#ROcost').text('Rp ' + formatMoney($('.serviceRO').find(':selected').data('harga')));
+			$('#totalFinal').text('Rp ' + formatMoney($('.serviceRO').find(':selected').data('totalfix')));
 			$.ajax({
 				url: BASE_URL + 'ongkir/getDetailOngkir',
 				type: 'POST',
@@ -116,7 +142,7 @@ $(document).ready(function () {
 					if (data.status == 501) {
 						Swal.fire('Upsss!', data.responseText);
 					} else {
-						Swal.fire('Horayy!', 'Silahkan Lanjutkan Pembayaran');
+						Swal.fire('', 'Silahkan Lanjutkan Pembayaran');
 						$('#btnBayar').prop('disabled', false);
 					}
 				}
@@ -131,19 +157,19 @@ $(document).ready(function () {
 	$('#kurir').on('change', function () {
 		$('.serviceRO').children('option').remove();
 		$('.serviceRO').prop('disabled', true);
-		$('#ROest').text('')
-		$('#ROcost').text('')
+		$('#ROest').text('');
+		$('#ROcost').text('');
 		$('#btnBayar').prop('disabled', true);
-		$('#totalFinal').text('')
+		$('#totalFinal').text('');
 	});
 
 	$('#kota_tujuan').on('change', function () {
 		$('.serviceRO').children('option').remove();
 		$('.serviceRO').prop('disabled', true);
-		$('#ROest').text('')
-		$('#ROcost').text('')
+		$('#ROest').text('');
+		$('#ROcost').text('');
 		$('#btnBayar').prop('disabled', true);
-		$('#totalFinal').text('')
+		$('#totalFinal').text('');
 	});
 
 	function formatMoney(amount, decimalCount = 0, decimal = ".", thousands = ".") {
@@ -158,8 +184,8 @@ $(document).ready(function () {
 
 			return negativeSign + (j ? i.substr(0, j) + thousands : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousands) + (decimalCount ? decimal + Math.abs(amount - i).toFixed(decimalCount).slice(2) : "");
 		} catch (e) {
-			console.log(e)
+			console.log(e);
 		}
-	};
+	}
 
 });

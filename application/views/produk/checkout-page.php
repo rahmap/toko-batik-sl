@@ -4,9 +4,6 @@
 <head>
   <?php $this->load->view('produk/_partials-heda.php') ?>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <link rel="stylesheet" href="<?= base_url() ?>assets/SBAdmin2/select2/dist/css/select2.min.css">
-  <script src="<?= base_url() ?>assets/SBAdmin2/select2/dist/js/select2.min.js"></script>   
-  <script src="<?= base_url() ?>assets/SBAdmin2/select2/dist/js/i18n/id.js"></script> 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 </head>
 
@@ -40,9 +37,22 @@
               <input type="hidden" class="form-control" value="" id="total_ongkir" name="total_ongkir" required="">
               <input type="hidden" class="form-control" value="" id="totalBayar" name="totalBayar" required="">
               <div class="form-group">
-                <label class="control-label col-sm-3">Kota Tujuan</label>
-                <div class="col-sm-12">          
-                  <select class="form-control" id="kota_tujuan" name="kota_tujuan" required style="width:100%!important">
+                <label class="control-label col-sm-3">Provinsi Tujuan</label>
+                <div class="col-sm-12">
+                  <select class="form-control" id="provinsi" name="provinsi_tujuan" required style="width:100%!important">
+                    <?php foreach ($provinsi->rajaongkir->results as $prov): ?>
+                      <option data-id_prov="<?= $prov->province_id ?>" value="<?= $prov->province ?>"
+                        <?= (!empty($dataUser['provinsi']) AND $dataUser['provinsi'] == $prov->province)? 'selected' : '' ?>
+                      ><?= $prov->province ?></option>
+                    <?php endforeach; ?>
+                  </select>
+                </div>
+                <?= form_error('provinsi_tujuan', '<small class="text-danger pl-3">', '</small>') ?>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-sm-3">Kabupaten Tujuan</label>
+                <div class="col-sm-12">
+                  <select class="form-control" disabled id="kota_tujuan" name="kota_tujuan" required style="width:100%!important">
                     <option></option>
                   </select>
                 </div>
@@ -109,7 +119,7 @@
               <div class="form-group">
                 <label class="control-label col-sm-12">Alamat Lengkap Pengiriman</label>
                 <div class="col-sm-12">          
-                  <textarea name="alamat" id="alamat" required class="form-control" minlength="5" placeholder="Contoh : Jl. Cinta Boulevard No.3 RT/RW 07/02 Bintaro, Pesanggrahan, Jaksel, 55551"><?= $dataUser['address'] ?></textarea>
+                  <textarea name="alamat" id="alamat" required class="form-control" minlength="5" placeholder="Contoh : Jl. Cinta Boulevard No.3 RT/RW 07/02 Bintaro, Pesanggrahan, Jaksel, 55551"><?= $address_pengiriman ?></textarea>
                 </div>
                 <?= form_error('alamat', '<small class="text-danger pl-3">', '</small>') ?>
               </div>
@@ -219,7 +229,9 @@
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.7.6/js/mdb.min.js"></script>
   <!-- Select2 -->
   <script type="text/javascript">
-    var site_url = "<?= base_url() ?>"; //dikirm ke Ongkir.js
+      let site_url = "<?= base_url() ?>"; //dikirm ke Ongkir.js
+      let kabupatenVal = "<?= 'Sleman' ?>"
+      // console.log(kabupatenVal)
   </script>
   <script src="<?= base_url('assets/js/') ?>Ongkir.js"></script>
   <script type="text/javascript">

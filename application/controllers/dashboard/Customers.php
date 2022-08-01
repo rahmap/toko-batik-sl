@@ -127,8 +127,23 @@ class Customers extends CI_Controller
     }
   }
 
+  public function getKabupaten($prov_id = null)
+  {
+    // $this->freeM->cek_ajax();
+    $this->load->library('rajaongkir');
+    // echo 'halo';
+    header('Content-Type: application/json');
+    header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Credentials: true");
+
+
+    echo json_encode($this->rajaongkir->city($prov_id));
+  }
+
   public function pengaturan()
   {
+    $this->load->library('rajaongkir');
+    $data['provinsi'] = json_decode($this->rajaongkir->province());
     $data['title'] = 'Pengaturan Akun - Customers';
     $data['dataUser'] = $this->Admin_Model->getDetailUsers();
     $this->load->view('user/setting/pengaturan', $data);
@@ -142,6 +157,9 @@ class Customers extends CI_Controller
         $this->input->post('email', true) == $this->session->email AND
         $this->input->post('address', true) == $dataUser['address'] AND
         $this->input->post('no_hp', true) == $dataUser['no_hp']) AND
+        $this->input->post('kecamatan', true) == $dataUser['kecamatan'] AND
+        $this->input->post('kabupaten', true) == $dataUser['kabupaten'] AND
+        $this->input->post('provinsi', true) == $dataUser['provinsi'] AND
         $this->input->post('zip_code', true) == $dataUser['zip_code'] AND
         empty($_FILES['foto']['name'])
       ){
@@ -157,6 +175,9 @@ class Customers extends CI_Controller
     $this->form_validation->set_rules('no_hp', 'Phone Number', 'required|numeric');
     $this->form_validation->set_rules('zip_code', 'Kode Pos', 'required|alpha_numeric_spaces|min_length[2]|max_length[15]');
     $this->form_validation->set_rules('address', 'Address', 'required|trim');
+    $this->form_validation->set_rules('provinsi', 'Provinsi', 'required|trim|min_length[3]|max_length[100]');
+    $this->form_validation->set_rules('kabupaten', 'Kabupaten', 'required|trim|min_length[3]|max_length[100]');
+    $this->form_validation->set_rules('kecamatan', 'Kecamatan', 'required|trim|min_length[3]|max_length[100]');
     $this->form_validation->set_rules('nama', 'Nama Baru', 'required|trim|min_length[3]|max_length[25]|alpha_numeric_spaces');
     if ($this->form_validation->run() == false) {
       $data['title'] = 'Pengaturan Akun - Customers';
@@ -171,6 +192,9 @@ class Customers extends CI_Controller
           $data = [
             'nama' => htmlspecialchars($this->input->post('nama', true)),
             'address' => htmlspecialchars($this->input->post('address', true)),
+            'provinsi' => $this->input->post('provinsi', true),
+            'kabupaten' => $this->input->post('kabupaten', true),
+            'kecamatan' => $this->input->post('kecamatan', true),
             'no_hp' => htmlspecialchars($this->input->post('no_hp', true)),
             'zip_code' => htmlspecialchars($this->input->post('zip_code', true)),
             'email' => $this->session->email
@@ -197,6 +221,9 @@ class Customers extends CI_Controller
         $data = [
           'nama' => htmlspecialchars($this->input->post('nama', true)),
           'address' => htmlspecialchars($this->input->post('address', true)),
+          'provinsi' => $this->input->post('provinsi', true),
+          'kabupaten' => $this->input->post('kabupaten', true),
+          'kecamatan' => $this->input->post('kecamatan', true),
           'no_hp' => htmlspecialchars($this->input->post('no_hp', true)),
           'zip_code' => htmlspecialchars($this->input->post('zip_code', true)),
           'email' => $this->session->email

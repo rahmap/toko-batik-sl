@@ -81,11 +81,24 @@ class Auth extends CI_Controller
         }
     }
 
+    public function getKabupaten($prov_id = null){
+      $this->load->library('rajaongkir');
+
+      header('Content-Type: application/json');
+      header("Access-Control-Allow-Origin: *");
+      header("Access-Control-Allow-Credentials: true");
+
+      echo json_encode($this->rajaongkir->city($prov_id));
+    }
+
     public function register()
     {
+        $this->load->library('rajaongkir');
         if (!$this->session->has_userdata('email')) {
-            $this->form_validation->set_rules('fname', 'First Name', 'required|trim|min_length[3]|alpha_numeric_spaces|max_length[20]');
-            $this->form_validation->set_rules('lname', 'Last Name', 'required|trim|min_length[1]|alpha_numeric_spaces|max_length[20]');
+            $this->form_validation->set_rules('fname', 'First Name', 'required|trim|min_length[3]|alpha_numeric_spaces|max_length[30]');
+            $this->form_validation->set_rules('provinsi', 'Provinsi', 'required|trim|min_length[3]|max_length[100]');
+            $this->form_validation->set_rules('kecamatan', 'Kecamatan', 'required|trim|min_length[3]|max_length[100]');
+            $this->form_validation->set_rules('kabupaten', 'Kabupaten', 'required|trim|min_length[3]|max_length[100]');
             $this->form_validation->set_rules('zip_code', 'Kode Pos', 'required|trim|min_length[2]|alpha_numeric_spaces|max_length[15]');
             $this->form_validation->set_rules('email', 'Email Address', 'required|trim|valid_email|is_unique[data_user.email]', [
                 'is_unique' => 'This email already exist'
@@ -100,16 +113,21 @@ class Auth extends CI_Controller
             $this->form_validation->set_rules('no_hp', 'Phone Number', 'required|numeric');
             $this->form_validation->set_rules('address', 'Address', 'required|trim');
             if ($this->form_validation->run() == false) {
-                $data['title'] = 'Batik - Register Page';
+                $data = [
+                  'title' => 'Batik - Register Page',
+                  'provinsi' => json_decode($this->rajaongkir->province())
+                ];
                 $this->load->view('auth/register', $data);
             } else {
-                $namaUser = htmlspecialchars($this->input->post('fname', true)) . ' ' .
-                htmlspecialchars($this->input->post('lname', true));
+                $namaUser = htmlspecialchars($this->input->post('fname', true));
                 $data = [
                     'nama' => ucwords($namaUser),
                     'no_hp' => $this->input->post('no_hp', true),
                     'zip_code' => $this->input->post('zip_code', true),
                     'address' => $this->input->post('address', true),
+                    'provinsi' => $this->input->post('provinsi', true),
+                    'kabupaten' => $this->input->post('kabupaten', true),
+                    'kecamatan' => $this->input->post('kecamatan', true),
                     'email' => htmlspecialchars($this->input->post('email', true)),
                     'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
                     'level' => 'Member'
