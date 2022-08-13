@@ -41,10 +41,10 @@ class Produk extends CI_Controller
       redirect('auth/login');
     }
     $dataUser = $this->Admin_Model->getDetailUsers();
+    if ($this->session->level == 'Admin' or $this->session->level == 'Owner' or $this->session->level == 'Seller') {
+      $this->freeM->getSweetAlert('infoPayment', 'Upss!', 'Admin, Owner dan Seller tidak dapat berbelanja, gunakan akun Member!');
+    }
     if (count($this->cart->contents()) == 0) {
-      if ($this->session->level == 'Admin' or $this->session->level == 'Owner') {
-        $this->freeM->getSweetAlert('infoPayment', 'Upss!', 'Admin atau Owner tidak dapat berbelanja di toko sendiri, gunakan akun member!');
-      }
       redirect('/');
     } else {
       $this->load->library('form_validation');

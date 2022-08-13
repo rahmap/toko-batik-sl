@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-	<?php $this->load->view('admin/_partials/admin_header') ?>
+	<?php $this->load->view('seller/_partials/seller_header') ?>
 	    <!-- Datatables -->
 		<link href="<?= base_url('assets/gentelella/') ?>vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
     <link href="<?= base_url('assets/gentelella/') ?>vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
@@ -30,19 +30,19 @@
             <div class="clearfix"></div>
 
             <!-- menu profile quick info & nama toko -->
-				<?php $this->load->view('admin/_partials/admin_pp') ?>
+				<?php $this->load->view('seller/_partials/seller_pp') ?>
             <!-- /menu profile quick info & nama toko -->
 
             <br/>
 
             <!-- sidebar menu -->
-			<?php $this->load->view('admin/_partials/admin_sidebar') ?>
+			<?php $this->load->view('seller/_partials/seller_sidebar') ?>
             <!-- /sidebar menu -->
 
           </div>
         </div>
         <!-- top navigation -->
-		<?php $this->load->view('admin/_partials/admin_topnav') ?>
+		<?php $this->load->view('seller/_partials/seller_topnav') ?>
         <!-- /top navigation -->
 
         <!-- page content -->
@@ -85,15 +85,15 @@
 										<ul class="nav navbar-right panel_toolbox">
 											<li><a class="collapse-link" style="margin-right:10px;"><i class="fa fa-chevron-up"></i></a>
 											</li>
-<!--											<a href="--><?//= base_url('dashboard/admin/add_product') ?><!--"><button type="button" class="btn btn-primary" data-container="body" data-toggle="popover" data-placement="right" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">-->
-<!--                        Tambah Produk Baru-->
-<!--                      </button></a>-->
+											<a href="<?= base_url('dashboard/seller/add_product') ?>"><button type="button" class="btn btn-primary" data-container="body" data-toggle="popover" data-placement="right" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
+                        Tambah Produk Baru
+                      </button></a>
 										</ul>
 										<div class="clearfix"></div>
 									</div>
 									<div class="x_content">
 										<p class="text-muted font-13 m-b-30">
-											Menampilkan seluruh data produk yang belum di hapus, admin dapat memperbaruhi data sesuai keadaan sesungguhnya.
+											Menampilkan seluruh data produk yang belum di hapus, seller dapat memperbaruhi data sesuai keadaan sesungguhnya.
 										</p>
 										<table id="datatable-keytable" class="table table-striped table-bordered dataTable no-footer" role="grid" aria-describedby="datatable-keytable_info" style="position: relative;">
 											<thead>
@@ -132,14 +132,14 @@
 																	<span class="caret"></span>
 																</a>
 																<ul id="menu6" class="dropdown-menu animated fadeInDown" role="menu">
-																	<li role="presentation"><a role="menuitem" tabindex="-1" href="#" class="btnHapus" data-ket="menghapus" onclick="set_url('<?= site_url('dashboard/admin/delete_produk/' . encrypt_url($key['id_produk']))  ?>')" data-toggle="modal" data-target="#kt_modal_1">
+																	<li role="presentation"><a role="menuitem" tabindex="-1" href="#" class="btnHapus" data-ket="menghapus" onclick="set_url('<?= site_url('dashboard/seller/delete_produk/' . encrypt_url($key['id_produk']))  ?>')" data-toggle="modal" data-target="#kt_modal_1">
 																	 Hapus Produk</a>
 																	</li>
 																	<?php
 																		if ($key['aktif'] == 1) {
-																			echo '<li role="presentation"><a class="btnHapus" data-ket="mengnonaktifkan" data-href="' . site_url('dashboard/admin/nonaktif_produk/' . encrypt_url($key['id_produk'])) . '"  data-toggle="modal" data-target="#kt_modal_1"> Nonaktifkan Produk</a></li>';
+																			echo '<li role="presentation"><a class="btnHapus" data-ket="mengnonaktifkan" data-href="' . site_url('dashboard/seller/nonaktif_produk/' . encrypt_url($key['id_produk'])) . '"  data-toggle="modal" data-target="#kt_modal_1"> Nonaktifkan Produk</a></li>';
 																		} else {
-																			echo '<li role="presentation"><a class="btnHapus" data-ket="mengaktifkan" data-href="' . site_url('dashboard/admin/aktif_produk/' . encrypt_url($key['id_produk'])) . '"  data-toggle="modal" data-target="#kt_modal_1"> Aktifkan Produk</a></li>';
+																			echo '<li role="presentation"><a class="btnHapus" data-ket="mengaktifkan" data-href="' . site_url('dashboard/seller/aktif_produk/' . encrypt_url($key['id_produk'])) . '"  data-toggle="modal" data-target="#kt_modal_1"> Aktifkan Produk</a></li>';
 																		}
 																			echo ' <li role="presentation"><a role="menuitem" tabindex="-1" href="#" class="btnEdit" 
 																			data-toggle="modal" 
@@ -217,7 +217,7 @@
 								<li role="presentation" class=""><a href="#tab_content4" role="tab" id="profile-tab4" data-toggle="tab" aria-expanded="false">Foto Produk</a>
 								</li>
 							</ul>
-							<form method="POST" action="<?= base_url('dashboard/admin/updateDataProduk') ?>" novalidate enctype="multipart/form-data">
+							<form method="POST" action="<?= base_url('dashboard/seller/updateDataProduk') ?>" novalidate enctype="multipart/form-data">
 							
 								<div id="myTabContent" class="tab-content">
 									<div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
@@ -309,11 +309,11 @@
 <!-- Update data Produk -->
 
         <!-- footer content -->
-        <?php $this->load->view('admin/_partials/admin_footer'); ?>
+        <?php $this->load->view('seller/_partials/seller_footer'); ?>
         <!-- /footer content -->
       </div>
 	</div>
-	<?php $this->load->view('admin/_partials/admin_js') ?>
+	<?php $this->load->view('seller/_partials/seller_js') ?>
 	<!-- Datatables -->
 	<script src="<?= base_url('assets/gentelella/') ?>vendors/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="<?= base_url('assets/gentelella/') ?>vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>

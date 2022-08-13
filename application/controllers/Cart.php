@@ -16,8 +16,8 @@ class Cart extends CI_Controller
 
   public function tambahKeranjang() //fungsi Add To Cart
   {
-    if ($this->session->level == 'Admin' OR $this->session->level == 'Owner') {
-      $this->freeM->getSweetAlert('infoPayment', 'Upss!', 'Admin atau Owner tidak dapat berbelanja di toko sendiri, gunakan akun member!');
+    if ($this->session->level == 'Admin' OR $this->session->level == 'Owner' or $this->session->level == 'Seller') {
+      $this->freeM->getSweetAlert('infoPayment', 'Upss!', 'Admin, Owner dan Seller tidak dapat berbelanja, gunakan akun Member!');
       redirect('/');
     }
     if($this->input->post('ukuran', true) == '' OR $this->input->post('qty', true) <= 0 OR !is_numeric($this->input->post('qty', true))){

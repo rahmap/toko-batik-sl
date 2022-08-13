@@ -11,6 +11,11 @@ class Customers extends CI_Controller
         if ($this->session->level == 'Admin' OR $this->session->level == 'Owner') {
           redirect('dashboard/admin');
         }
+
+        if ($this->session->level == 'Seller') {
+          redirect('dashboard/seller');
+        }
+
         $data['image'] = $this->freeM->getImageUser(); //Load Image user
         $data['joinAt'] = $this->freeM->getDateJoin(); //Load Create Date user
         

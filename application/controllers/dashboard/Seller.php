@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Admin extends CI_Controller
+class Seller extends CI_Controller
 {
   public function __construct()
   {
@@ -14,8 +14,8 @@ class Admin extends CI_Controller
         redirect('dashboard/customers');
       }
 
-      if ($this->session->level == 'Seller') {
-        redirect('dashboard/seller');
+      if ($this->session->level == 'Admin' || $this->session->level == 'Owner') {
+        redirect('dashboard/admin');
       }
 
       $data['image'] = $this->freeM->getImageUser(); //Load Image user
@@ -40,7 +40,7 @@ class Admin extends CI_Controller
       'dataChartPesan' => $this->setDataChartPemesanan(),
       'dataChartPenjualan' => $this->setDataChartPenjualan()
     ];
-    $this->load->view('admin/home', $data);
+    $this->load->view('seller/home', $data);
   }
 
   public function data_customers()
@@ -51,7 +51,7 @@ class Admin extends CI_Controller
     $data['bulanCustomers'] = $this->Admin_Model->countCustomers('bulan');
     $data['hariCustomers'] = $this->Admin_Model->countCustomers('hari');
     // var_dump($this->db->last_query());
-    $this->load->view('admin/customers/data_customers', $data);
+    $this->load->view('seller/customers/data_customers', $data);
   }
 
   public function delete_customers($id = null)
@@ -63,9 +63,9 @@ class Admin extends CI_Controller
         $this->freeM->getSweetAlert('message', 'Upss!', 'Data pelanggan gagal di hapus!', 'error');
       }
     } else {
-      redirect('dashboard/admin/data_customers');
+      redirect('dashboard/seller/data_customers');
     }
-    redirect('dashboard/admin/data_customers');
+    redirect('dashboard/seller/data_customers');
   }
 
   public function nonaktif_customers($id = null)
@@ -84,9 +84,9 @@ class Admin extends CI_Controller
         $this->freeM->getSweetAlert('message', 'Upss!', 'Pelanggan gagal di nonaktifkan!', 'error');
       }
     } else {
-      redirect('dashboard/admin/data_customers');
+      redirect('dashboard/seller/data_customers');
     }
-    redirect('dashboard/admin/data_customers');
+    redirect('dashboard/seller/data_customers');
   }
 
   public function aktifkan_customers($id = null) //Belum selesai
@@ -105,9 +105,9 @@ class Admin extends CI_Controller
         $this->freeM->getSweetAlert('message', 'Upss!', 'Gagal mengirim email pengaktifan!', 'error');
       }
     } else {
-      redirect('dashboard/admin/data_customers');
+      redirect('dashboard/seller/data_customers');
     }
-    redirect('dashboard/admin/data_customers');
+    redirect('dashboard/seller/data_customers');
   }
 
   public function add_product()
@@ -125,7 +125,7 @@ class Admin extends CI_Controller
     if ($this->form_validation->run() == false) {
       $data['title'] = 'Add Products - Admin';
       $data['cat'] = $this->Admin_Model->getCatTag('kategori', ['active' => 1]);
-      $this->load->view('admin/product/addProduct', $data);
+      $this->load->view('seller/product/addProduct', $data);
     } else if ($this->form_validation->run() == true) {
       if (!empty($_FILES['foto']['name'])) {
         $data = [
@@ -158,7 +158,7 @@ class Admin extends CI_Controller
       } else {
         $this->freeM->getSweetAlert('message', 'Upss!', 'Foto Produk gagal diupload.', 'error');
       }
-      redirect('dashboard/admin/add_product');
+      redirect('dashboard/seller/add_product');
     }
   }
 
@@ -188,7 +188,7 @@ class Admin extends CI_Controller
       return $this->upload->data('file_name');
     } else {
       $this->freeM->getSweetAlert('message', 'Upss!', 'Foto Utama Produk gagal diupload.<br>'.$this->upload->display_errors(), 'error');
-      redirect('dashboard/admin/add_product');
+      redirect('dashboard/seller/add_product');
     }
   }
 
@@ -218,7 +218,7 @@ class Admin extends CI_Controller
       return $this->upload->data('file_name');
     } else {
       $this->freeM->getSweetAlert('message', 'Upss!', 'Foto Utama Produk gagal diupload.<br>'.$this->upload->display_errors(), 'error');
-      redirect('dashboard/admin/data_product');
+      redirect('dashboard/seller/data_product');
     }
   }
 
@@ -248,7 +248,7 @@ class Admin extends CI_Controller
       return $this->upload->data('file_name');
     } else {
       $this->freeM->getSweetAlert('message', 'Upss!', 'Foto Tambahan Produk gagal diupload.<br>'.$this->upload->display_errors(), 'error');
-      redirect('dashboard/admin/add_product');
+      redirect('dashboard/seller/add_product');
     }
   }
 
@@ -278,7 +278,7 @@ class Admin extends CI_Controller
       return $this->upload->data('file_name');
     } else {
       $this->freeM->getSweetAlert('message', 'Upss!', 'Foto Tambahan Produk gagal diupload.<br>'.$this->upload->display_errors(), 'error');
-      redirect('dashboard/admin/data_product');
+      redirect('dashboard/seller/data_product');
     }
   }
 
@@ -326,7 +326,7 @@ class Admin extends CI_Controller
       $data['allProduk'] = $this->Admin_Model->countProduk();
       $data['nonaktif'] = $this->Admin_Model->countProduk('0');
 		$data['cat'] = $this->Admin_Model->getCatTag('kategori', ['active' => 1]);
-    $this->load->view('admin/product/data_product', $data);
+    $this->load->view('seller/product/data_product', $data);
   }
 
   public function delete_produk($id = null)
@@ -344,9 +344,9 @@ class Admin extends CI_Controller
       } else {
         $this->freeM->getSweetAlert('message', 'Upss!', 'Produk gagal dihapus.', 'error');
       }
-      redirect('dashboard/admin/data_product');
+      redirect('dashboard/seller/data_product');
     } else {
-      redirect('dashboard/admin/data_product');
+      redirect('dashboard/seller/data_product');
     }
   }
 
@@ -358,9 +358,9 @@ class Admin extends CI_Controller
       } else {
         $this->freeM->getSweetAlert('message', 'Upss!', 'Produk gagal diaktifkan.', 'error');
       }
-      redirect('dashboard/admin/data_product');
+      redirect('dashboard/seller/data_product');
     } else {
-      redirect('dashboard/admin/data_product');
+      redirect('dashboard/seller/data_product');
     }
   }
 
@@ -372,9 +372,9 @@ class Admin extends CI_Controller
       } else {
         $this->freeM->getSweetAlert('message', 'Upss!', 'Produk gagal dinonaktifkan.', 'error');
       }
-      redirect('dashboard/admin/data_product');
+      redirect('dashboard/seller/data_product');
     } else {
-      redirect('dashboard/admin/data_product');
+      redirect('dashboard/seller/data_product');
     }
   }
 
@@ -387,7 +387,7 @@ class Admin extends CI_Controller
       $data['title'] = 'Tambah Tag Produk - Admin';
       $data['tagAktif'] = $this->Admin_Model->getAllTag(1);
       $data['tagNonaktif'] = $this->Admin_Model->getAllTag(0);
-      $this->load->view('admin/product/addTag', $data);
+      $this->load->view('seller/product/addTag', $data);
     } else {
       $data = [
         'nama_tag' => clean(ucwords($this->input->post('nama_tag', true))),
@@ -399,7 +399,7 @@ class Admin extends CI_Controller
       } else {
         $this->freeM->getSweetAlert('message', 'Upss!', 'Tag Produk gagal ditambahkan.', 'error');
       }
-      redirect('dashboard/admin/add_tag');
+      redirect('dashboard/seller/add_tag');
     }
   }
 
@@ -411,9 +411,9 @@ class Admin extends CI_Controller
       } else {
         $this->freeM->getSweetAlert('message', 'Upss!', 'Tag Produk gagal dinonaktifkan.', 'error');
       }
-      redirect('dashboard/admin/add_tag');
+      redirect('dashboard/seller/add_tag');
     } else {
-      redirect('dashboard/admin/add_tag');
+      redirect('dashboard/seller/add_tag');
     }
   }
 
@@ -425,9 +425,9 @@ class Admin extends CI_Controller
       } else {
         $this->freeM->getSweetAlert('message', 'Upss!', 'Tag Produk gagal diaktifkan.', 'error');
       }
-      redirect('dashboard/admin/add_tag');
+      redirect('dashboard/seller/add_tag');
     } else {
-      redirect('dashboard/admin/add_tag');
+      redirect('dashboard/seller/add_tag');
     }
   }
 
@@ -439,16 +439,16 @@ class Admin extends CI_Controller
       } else {
         $this->freeM->getSweetAlert('message', 'Upss!', 'Tag Produk gagal dihapus selamanya.', 'error');
       }
-      redirect('dashboard/admin/add_tag');
+      redirect('dashboard/seller/add_tag');
     } else {
-      redirect('dashboard/admin/add_tag');
+      redirect('dashboard/seller/add_tag');
     }
   }
 
   public function addParentKategori($id_parent)
   {
     if(!isset($_POST['submit'])){
-      redirect('dashboard/admin/edit_parent_kategori/'.$id_parent);
+      redirect('dashboard/seller/edit_parent_kategori/'.$id_parent);
     } else {
       $data = $this->input->post('subKategori', true);
       $this->db->delete('parent_kategori_kategori', ['parent_kategori_id' => $id_parent]);
@@ -463,7 +463,7 @@ class Admin extends CI_Controller
       } else {
         $this->freeM->getSweetAlert('message', 'Upss!', 'Parent Kategori Produk gagal atur.', 'error');
       }
-      redirect('dashboard/admin/edit_parent_kategori/'.$id_parent);
+      redirect('dashboard/seller/edit_parent_kategori/'.$id_parent);
     }
   }
 
@@ -476,7 +476,7 @@ class Admin extends CI_Controller
       } else {
         $this->freeM->getSweetAlert('message', 'Upss!', 'Parent Kategori Produk gagal ditambahkan.', 'error');
       }
-      redirect('dashboard/admin/add_category');
+      redirect('dashboard/seller/add_category');
     }
   }
 
@@ -488,7 +488,7 @@ class Admin extends CI_Controller
       $data['title'] = 'Tambah Kategori Produk - Admin';
       $data['categoryAktif'] = $this->Admin_Model->getAllCategory(1);
       $data['categoryNonaktif'] = $this->Admin_Model->getAllCategory(0);
-      $this->load->view('admin/product/addCategory', $data);
+      $this->load->view('seller/product/addCategory', $data);
     } else if ($this->form_validation->run() == true) {
       $data = [
         'nama_cat' => ucwords($this->input->post('nama_cat', true)),
@@ -500,7 +500,7 @@ class Admin extends CI_Controller
       } else {
         $this->freeM->getSweetAlert('message', 'Upss!', 'Kategori Produk gagal ditambahkan.', 'error');
       }
-      redirect('dashboard/admin/add_category');
+      redirect('dashboard/seller/add_category');
     }
   }
 
@@ -513,7 +513,7 @@ class Admin extends CI_Controller
       $data['parent'] = $this->Admin_Model->getAllParentSingle($id_parent);
       $data['kategori'] = $this->Admin_Model->getAllCategory(1);
 
-      $this->load->view('admin/product/addSubOnParent', $data);
+      $this->load->view('seller/product/addSubOnParent', $data);
     } else if ($this->form_validation->run() == true) {
       $data = [
         'nama_cat' => ucwords($this->input->post('nama_cat', true)),
@@ -525,7 +525,7 @@ class Admin extends CI_Controller
       } else {
         $this->freeM->getSweetAlert('message', 'Upss!', 'Kategori Produk gagal ditambahkan.', 'error');
       }
-      redirect('dashboard/admin/add_category');
+      redirect('dashboard/seller/add_category');
     }
   }
 
@@ -537,9 +537,9 @@ class Admin extends CI_Controller
       } else {
         $this->freeM->getSweetAlert('message', 'Upss!', 'Kategori Produk gagal dinonaktifkan.', 'error');
       }
-      redirect('dashboard/admin/add_category');
+      redirect('dashboard/seller/add_category');
     } else {
-      redirect('dashboard/admin/add_category');
+      redirect('dashboard/seller/add_category');
     }
   }
 
@@ -551,9 +551,9 @@ class Admin extends CI_Controller
       } else {
         $this->freeM->getSweetAlert('message', 'Upss!', 'Kategori Produk gagal diaktifkan.', 'error');
       }
-      redirect('dashboard/admin/add_category');
+      redirect('dashboard/seller/add_category');
     } else {
-      redirect('dashboard/admin/add_category');
+      redirect('dashboard/seller/add_category');
     }
   }
 
@@ -565,9 +565,9 @@ class Admin extends CI_Controller
       } else {
         $this->freeM->getSweetAlert('message', 'Upss!', 'Kategori Produk gagal dihapus selamanya.', 'error');
       }
-      redirect('dashboard/admin/add_category');
+      redirect('dashboard/seller/add_category');
     } else {
-      redirect('dashboard/admin/add_category');
+      redirect('dashboard/seller/add_category');
     }
   }
 
@@ -579,9 +579,9 @@ class Admin extends CI_Controller
       } else {
         $this->freeM->getSweetAlert('message', 'Upss!', 'Parent Kategori Produk gagal dihapus selamanya.', 'error');
       }
-      redirect('dashboard/admin/add_category');
+      redirect('dashboard/seller/add_category');
     } else {
-      redirect('dashboard/admin/add_category');
+      redirect('dashboard/seller/add_category');
     }
   }
 
@@ -591,7 +591,7 @@ class Admin extends CI_Controller
     $this->form_validation->set_rules('ket_tag_new', 'Keterangan Tag', 'required|trim|min_length[8]|max_length[50]|alpha_numeric_spaces');
     if ($this->form_validation->run() == false) {
       $this->freeM->getSweetAlert('message', 'Upss!', 'Tag Produk gagal diupdate. Perbaiki data inputan!', 'error');
-      redirect('dashboard/admin/add_tag');
+      redirect('dashboard/seller/add_tag');
     } else {
       $idTag =  $this->input->post('id_tag_new', true);
       $data = [
@@ -600,10 +600,10 @@ class Admin extends CI_Controller
       ];
       if($this->Admin_Model->updateTagCat($idTag, 'tags', $data)){
         $this->freeM->getSweetAlert('message', 'Horay!', 'Tag Produk berhasil diupdate.', 'success');
-        redirect('dashboard/admin/add_tag');
+        redirect('dashboard/seller/add_tag');
       } else {
         $this->freeM->getSweetAlert('message', 'Upss!', 'Tag Produk gagal diupdate. Query Error!', 'error');
-        redirect('dashboard/admin/add_tag');
+        redirect('dashboard/seller/add_tag');
       }
     }
   }
@@ -614,7 +614,7 @@ class Admin extends CI_Controller
     $this->form_validation->set_rules('ket_cat_new', 'Keterangan Kategori', 'required|trim|min_length[8]|max_length[50]|alpha_numeric_spaces');
     if ($this->form_validation->run() == false) {
       $this->freeM->getSweetAlert('message', 'Upss!', 'Kategori Produk gagal diupdate. Perbaiki data inputan!', 'error');
-      redirect('dashboard/admin/add_category');
+      redirect('dashboard/seller/add_category');
     } else if ($this->form_validation->run() == true) {
       $idCat =  $this->input->post('id_cat_new', true);
       $data = [
@@ -623,10 +623,10 @@ class Admin extends CI_Controller
       ];
       if($this->Admin_Model->updateTagCat($idCat, 'kategori', $data)){
         $this->freeM->getSweetAlert('message', 'Horay!', 'Kategori Produk berhasil diupdate.', 'success');
-        redirect('dashboard/admin/add_category');
+        redirect('dashboard/seller/add_category');
       } else {
         $this->freeM->getSweetAlert('message', 'Upss!', 'Kategori Produk gagal diupdate. Query Error!', 'error');
-        redirect('dashboard/admin/add_category');
+        redirect('dashboard/seller/add_category');
       }
     }
   }
@@ -636,7 +636,7 @@ class Admin extends CI_Controller
     $this->form_validation->set_rules('nama_cat_new', 'Nama Kategori', 'required|trim|min_length[3]|max_length[20]|alpha_numeric_spaces');
     if ($this->form_validation->run() == false) {
       $this->freeM->getSweetAlert('message', 'Upss!', 'Parent Kategori Produk gagal diupdate. Perbaiki data inputan!', 'error');
-      redirect('dashboard/admin/add_category');
+      redirect('dashboard/seller/add_category');
     } else if ($this->form_validation->run() == true) {
       $idCat =  $this->input->post('id_cat_new', true);
       $data = [
@@ -644,10 +644,10 @@ class Admin extends CI_Controller
       ];
       if($this->Admin_Model->updateCatParent($idCat, $data)){
         $this->freeM->getSweetAlert('message', 'Horay!', 'Parent Kategori Produk berhasil diupdate.', 'success');
-        redirect('dashboard/admin/add_category');
+        redirect('dashboard/seller/add_category');
       } else {
         $this->freeM->getSweetAlert('message', 'Upss!', 'Parent Kategori Produk gagal diupdate. Query Error!', 'error');
-        redirect('dashboard/admin/add_category');
+        redirect('dashboard/seller/add_category');
       }
     }
   }
@@ -711,10 +711,10 @@ class Admin extends CI_Controller
 				}
 			}
       $this->freeM->getSweetAlert('message', 'Horay!', 'Data Produk berhasil diupdate.', 'success');
-      redirect('dashboard/admin/data_product','refresh');
+      redirect('dashboard/seller/data_product','refresh');
     } else {
       $this->freeM->getSweetAlert('message', 'Upss!', 'Data Produk gagal diupdate.', 'error');
-      redirect('dashboard/admin/data_product','refresh');
+      redirect('dashboard/seller/data_product','refresh');
     }
   }
 
@@ -734,7 +734,7 @@ class Admin extends CI_Controller
     // var_dump($data['orders']);
     // echo '</pre>';
     // die;
-    $this->load->view('admin/orders/data_orders', $data);
+    $this->load->view('seller/orders/data_orders', $data);
   }
 
   public function inputResi()
@@ -756,16 +756,16 @@ class Admin extends CI_Controller
 
       $this->freeM->sendEmail($dataEmail, 'Nomer Resi Pengiriman '.$res['id_orders'],  EMAIL_FROM, 'input-resi'); //send email to customers
       $this->freeM->getSweetAlert('message', 'Horayy!', 'Nomer Resi Pengiriman berhasil diupdate.', 'success');
-      redirect('dashboard/admin/data_orders');
+      redirect('dashboard/seller/data_orders');
     } else {
       $this->freeM->getSweetAlert('message', 'Upss!', 'Nomer Resi Pengiriman gagal diupdate.', 'error');
-      redirect('dashboard/admin/data_orders');
+      redirect('dashboard/seller/data_orders');
     }
   }
   
   public function hapusResi($id)
   {
-    ($id == null)? redirect('dashboard/admin/orders_pengiriman') : '' ;
+    ($id == null)? redirect('dashboard/seller/orders_pengiriman') : '' ;
     $resi = null;
     if($this->Admin_Model->inputResi($id, $resi)){
       $res = $this->Admin_Model->getInfoHapusResi($id); //get info pengiriman
@@ -780,10 +780,10 @@ class Admin extends CI_Controller
 
       $this->freeM->sendEmail($dataEmail, 'Penghapusan Nomer Resi Pengiriman '.$res['id_orders'],  EMAIL_FROM, 'hapus-resi'); //send email to customers
       $this->freeM->getSweetAlert('message', 'Horayy!', 'Nomer Resi Pengiriman berhasil dihapus.', 'success');
-      redirect('dashboard/admin/orders_pengiriman');
+      redirect('dashboard/seller/orders_pengiriman');
     } else {
       $this->freeM->getSweetAlert('message', 'Upss!', 'Nomer Resi Pengiriman gagal dihapus.', 'error');
-      redirect('dashboard/admin/orders_pengiriman');
+      redirect('dashboard/seller/orders_pengiriman');
     }
   }
 
@@ -792,7 +792,7 @@ class Admin extends CI_Controller
     $data['title'] = 'Data Pemesanan - Admin';
     $data['orders'] = $this->Admin_Model->getAllOrders('settlement', '!=');
     $data['totResi'] = $this->Admin_Model->countPengiriman();
-    $this->load->view('admin/orders/orders_pengiriman', $data);
+    $this->load->view('seller/orders/orders_pengiriman', $data);
   }
 
   public function updateResi()
@@ -813,10 +813,10 @@ class Admin extends CI_Controller
 
       $this->freeM->sendEmail($dataEmail, 'Perubahan Nomer Resi Pengiriman '.$res['id_orders'],  EMAIL_FROM, 'update-resi'); //send email to customers
       $this->freeM->getSweetAlert('message', 'Horayy!', 'Nomer Resi Pengiriman berhasil diupdate!', 'success');
-      redirect('dashboard/admin/orders_pengiriman');
+      redirect('dashboard/seller/orders_pengiriman');
     } else {
       $this->freeM->getSweetAlert('message', 'Upss!', 'Nomer Resi Pengiriman gagal diupdate!', 'error');
-      redirect('dashboard/admin/orders_pengiriman');
+      redirect('dashboard/seller/orders_pengiriman');
     }
   }
 
@@ -825,154 +825,126 @@ class Admin extends CI_Controller
     $data['title'] = 'Data Pemesanan - Admin';
     $data['orders'] = $this->Admin_Model->getOrdersDone();  
     $data['totSelesai'] = $this->Admin_Model->countDone();
-    $this->load->view('admin/orders/orders_done', $data);
+    $this->load->view('seller/orders/orders_done', $data);
   }
 
-  public function delete_admin($id = null)
+  public function getKabupaten($prov_id = null)
   {
-    if ($id != NULL) {
-      if ($this->Admin_Model->deleteAdmin(decrypt_url($id))) {
-        $this->freeM->getSweetAlert('message', 'Success!', 'Data admin berhasil di hapus!.', 'success');
-      } else {
-        $this->freeM->getSweetAlert('message', 'Upss!', 'Data admin gagal di hapus!', 'error');
-      }
-    } else {
-      redirect('dashboard/admin/data_admin');
-    }
-    redirect('dashboard/admin/data_admin');
-  }
+    // $this->freeM->cek_ajax();
+    $this->load->library('rajaongkir');
+    // echo 'halo';
+    header('Content-Type: application/json');
+    header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Credentials: true");
 
-  public function data_admin()
-  {
-    ($this->session->level == 'admin')? redirect('dashboard/admin/customers'): '' ;
-    $data['title'] = 'Data Admin - Owner';
-    $data['admin'] = $this->Admin_Model->getAllAdmin();  
-    $this->load->view('admin/customers/data_admin', $data);
-  }
 
-  public function tambah_admin()
-  {
-      ($this->session->level == 'admin')? redirect('dashboard/admin/customers'): '' ;
-      $data['title'] = 'Tambah Admin - Owner';
-      $this->load->view('admin/customers/addAdmin', $data);
-
-  }
-
-  public function actionTambahAdmin()
-  {
-    ($this->session->level == 'admin')? redirect('dashboard/admin/customers'): '' ;
-    $this->form_validation->set_rules('email', 'Email Address', 'required|trim|valid_email|is_unique[data_user.email]');
-    $this->form_validation->set_rules('nama', 'Nama Admin', 'required|trim|min_length[3]|max_length[20]|alpha_numeric_spaces');
-    if($this->form_validation->run() == false){
-      $this->freeM->getSweetAlert('message', 'Upss!', 'Email sudah dipakai atau email tidak valid!','error');
-      redirect('dashboard/admin/tambah_admin');
-    } else {
-      $newPass = $this->input->post('PasswordBaru', true);
-      $newPassFix = $this->input->post('fixPasswordBaru', true);
-      if(strlen($newPass) < 8 OR strlen($newPass) >= 30){
-        $this->freeM->getSweetAlert('message', 'Upss!', 'Password Min 8 karakter dan Max 30 karakter!', 'error');
-        redirect('dashboard/admin/tambah_admin');
-      } else {
-        if($newPass != $newPassFix){
-          $this->freeM->getSweetAlert('message', 'Upss!', 'Password baru dan konfirmasi password baru tidak sama!', 'error');
-          redirect('dashboard/admin/tambah_admin');
-        } else {
-          $data = [
-            'nama' => $this->input->post('nama', true),
-            'email' => $this->input->post('email', true),
-            'password' => password_hash($newPass, PASSWORD_DEFAULT),
-            'level' => 'Admin'
-          ];
-          if($this->Admin_Model->tambahAdmin($data)){
-            $this->freeM->getSweetAlert('message', 'Horayy!', 'Berhasil menambahkan admin.', 'success');
-            redirect('dashboard/admin/tambah_admin');
-          } else {
-            $this->freeM->getSweetAlert('message', 'Upss!', 'Sistem error atau query salah!', 'error');
-            redirect('dashboard/admin/tambah_admin');
-          }
-        }
-      }
-    }
+    echo json_encode($this->rajaongkir->city($prov_id));
   }
 
   public function pengaturan()
   {
+    $this->load->library('rajaongkir');
     $data['title'] = 'Pengaturan Akun - Admin';
-    $this->load->view('admin/setting/pengaturan', $data);
+    $data['provinsi'] = json_decode($this->rajaongkir->province());
+    $data['dataUser'] = $this->Admin_Model->getDetailUsers();
+    $this->load->view('seller/setting/pengaturan', $data);
   }
 
   public function updateProfile()
   {
+    $dataUser = $this->Admin_Model->getDetailUsers();
     $dataFoto = null;
-    if( ($this->input->post('nama', true) == $this->session->nama AND 
-        $this->input->post('email', true) == $this->session->email) AND
-        empty($_FILES['foto']['name'])
-      ){
+    if( ($this->input->post('nama', true) == $this->session->nama AND
+        $this->input->post('email', true) == $this->session->email AND
+        $this->input->post('address', true) == $dataUser['address'] AND
+        $this->input->post('no_hp', true) == $dataUser['no_hp']) AND
+      $this->input->post('kecamatan', true) == $dataUser['kecamatan'] AND
+      $this->input->post('kabupaten', true) == $dataUser['kabupaten'] AND
+      $this->input->post('provinsi', true) == $dataUser['provinsi'] AND
+      $this->input->post('zip_code', true) == $dataUser['zip_code'] AND
+      empty($_FILES['foto']['name'])
+    ){
       $this->freeM->getSweetAlert('message', 'Hemmm..','Data tidak berubah!','info');
-      redirect('dashboard/admin/pengaturan');
+      redirect('dashboard/seller/pengaturan');
     }
-
-		$dataUser = $this->Admin_Model->getDetailUsers();
 //    dd($dataUser);
     if(!empty($_FILES['foto']['name'])) {
       $dataFoto = $this->uploadFotoProfile();
     } else {
-    	$dataFoto = $dataUser['foto'];
-		}
-
+      $dataFoto = $dataUser['foto'];
+    }
+    $this->form_validation->set_rules('no_hp', 'Phone Number', 'required|numeric');
+    $this->form_validation->set_rules('zip_code', 'Kode Pos', 'required|alpha_numeric_spaces|min_length[2]|max_length[15]');
+    $this->form_validation->set_rules('address', 'Address', 'required|trim');
+    $this->form_validation->set_rules('provinsi', 'Provinsi', 'required|trim|min_length[3]|max_length[100]');
+    $this->form_validation->set_rules('kabupaten', 'Kabupaten', 'required|trim|min_length[3]|max_length[100]');
+    $this->form_validation->set_rules('kecamatan', 'Kecamatan', 'required|trim|min_length[3]|max_length[100]');
     $this->form_validation->set_rules('nama', 'Nama Baru', 'required|trim|min_length[3]|max_length[25]|alpha_numeric_spaces');
     if ($this->form_validation->run() == false) {
-      $this->freeM->getSweetAlert('message', 'Upss!', 'Panjang Nama Max 25 Min 3!','error');
-      redirect('dashboard/admin/pengaturan');
+      $data['title'] = 'Pengaturan Akun - Seller';
+      $data['dataUser'] = $this->Admin_Model->getDetailUsers();
+      $this->load->view('user/setting/pengaturan', $data);
     } else if($this->form_validation->run() == true){
       $this->form_validation->set_rules('email', 'Email Address', 'required|trim|valid_email|is_unique[data_user.email]', [
         'is_unique' => 'Email ini sudah dipakai!'
       ]);
       if ($this->form_validation->run() == false) {
-        if($this->input->post('email', true) == $this->session->email){
+        if($this->input->post('email') == $this->session->email){
           $data = [
             'nama' => htmlspecialchars($this->input->post('nama', true)),
+            'address' => htmlspecialchars($this->input->post('address', true)),
+            'provinsi' => $this->input->post('provinsi', true),
+            'kabupaten' => $this->input->post('kabupaten', true),
+            'kecamatan' => $this->input->post('kecamatan', true),
+            'no_hp' => htmlspecialchars($this->input->post('no_hp', true)),
+            'zip_code' => htmlspecialchars($this->input->post('zip_code', true)),
             'email' => $this->session->email
           ];
-          if($this->Admin_Model->updateProfile($data, $dataFoto)){
+          if($this->Admin_Model->updateProfileSeller($data, $dataFoto)){
             $this->freeM->getSweetAlert('message', 'Horayy!', 'Data diri anda berhasil diubah!','success');
-						if($dataUser['foto'] != $dataFoto){
-							if (file_exists('./assets/images/user/'.$dataUser['foto'])) {
-								if($dataUser['foto'] != 'admin.png' AND $dataUser['foto'] != 'default.png' AND $dataUser['foto'] != 'owner.jpg'){
-									unlink('./assets/images/user/'.$dataUser['foto']);
-								}
-							}
-						}
-            redirect('dashboard/admin/pengaturan');
+            if($dataUser['foto'] != $dataFoto){
+              if (file_exists('./assets/images/user/'.$dataUser['foto'])) {
+                if($dataUser['foto'] != 'admin.png' AND $dataUser['foto'] != 'default.png' AND $dataUser['foto'] != 'owner.jpg'){
+                  unlink('./assets/images/user/'.$dataUser['foto']);
+                }
+              }
+            }
+            redirect('dashboard/seller/pengaturan');
           } else {
             $this->freeM->getSweetAlert('message', 'Upss!', 'Sistem error atau query salah!','error');
-            redirect('dashboard/admin/pengaturan');
+            redirect('dashboard/seller/pengaturan');
           }
         } else {
           $this->freeM->getSweetAlert('message', 'Upss!', 'Email sudah dipakai atau email tidak valid!','error');
-          redirect('dashboard/admin/pengaturan');
+          redirect('dashboard/seller/pengaturan');
         }
       } else {
         $data = [
           'nama' => htmlspecialchars($this->input->post('nama', true)),
+          'address' => htmlspecialchars($this->input->post('address', true)),
+          'provinsi' => $this->input->post('provinsi', true),
+          'kabupaten' => $this->input->post('kabupaten', true),
+          'kecamatan' => $this->input->post('kecamatan', true),
+          'no_hp' => htmlspecialchars($this->input->post('no_hp', true)),
+          'zip_code' => htmlspecialchars($this->input->post('zip_code', true)),
           'email' => $this->session->email
         ];
         if($this->Admin_Model->updateProfile($data, $dataFoto)){
           $this->freeM->getSweetAlert('message', 'Horayy!', 'Data diri anda berhasil diubah!','success');
           if($dataUser['foto'] != $dataFoto){
-						if (file_exists('./assets/images/user/'.$dataUser['foto'])) {
-							if($dataUser['foto'] != 'admin.png' AND $dataUser['foto'] != 'default.png' AND $dataUser['foto'] != 'owner.jpg'){
-								unlink('./assets/images/user/'.$dataUser['foto']);
-							}
-						}
-					}
-          redirect('dashboard/admin/pengaturan');
+            if (file_exists('./assets/images/user/'.$dataUser['foto'])) {
+              if($dataUser['foto'] != 'admin.png' AND $dataUser['foto'] != 'default.png' AND $dataUser['foto'] != 'owner.jpg'){
+                unlink('./assets/images/user/'.$dataUser['foto']);
+              }
+            }
+          }
+          redirect('dashboard/seller/pengaturan');
         } else {
           $this->freeM->getSweetAlert('message', 'Upss!', 'Sistem error atau query salah!','error');
-          redirect('dashboard/admin/pengaturan');
+          redirect('dashboard/seller/pengaturan');
         }
       }
-    } 
+    }
   }
 
   public function uploadFotoProfile()
@@ -1001,7 +973,7 @@ class Admin extends CI_Controller
       return $this->upload->data('file_name');
     } else {
       $this->freeM->getSweetAlert('message', 'Upss!', 'Foto profile gagal diupload.<br>'.$this->upload->display_errors(), 'error');
-      redirect('dashboard/admin/pengaturan');
+      redirect('dashboard/seller/pengaturan');
     }
   }
 
@@ -1012,25 +984,25 @@ class Admin extends CI_Controller
     $newPassFix = $this->input->post('fixPasswordBaru', true);
     if(!password_verify($oldPass, $this->freeM->getPassword())){
       $this->freeM->getSweetAlert('message', 'Upss!', 'Password lama salah!', 'error');
-      redirect('dashboard/admin/pengaturan');
+      redirect('dashboard/seller/pengaturan');
     } else {
       if(strlen($newPass) < 8 OR strlen($newPass) >= 30){
         $this->freeM->getSweetAlert('message', 'Upss!', 'Password Min 8 karakter dan Max 30 karakter!', 'error');
-        redirect('dashboard/admin/pengaturan');
+        redirect('dashboard/seller/pengaturan');
       } else {
         if($newPass != $newPassFix){
           $this->freeM->getSweetAlert('message', 'Upss!', 'Password baru dan konfirmasi password baru tidak sama!', 'error');
-          redirect('dashboard/admin/pengaturan');
+          redirect('dashboard/seller/pengaturan');
         } else {
           $data = [
             'password' => password_hash($newPass, PASSWORD_DEFAULT)
           ];
           if($this->Admin_Model->updateKeamanan($data)){
             $this->freeM->getSweetAlertHref('updatePswSuccess', 'Horayy!', 'Password anda berhasil diubah! Silahkan login lagi.', 'success', base_url('auth/logout'));
-            redirect('dashboard/admin/pengaturan');
+            redirect('dashboard/seller/pengaturan');
           } else {
             $this->freeM->getSweetAlert('message', 'Upss!', 'Sistem error atau query salah!', 'error');
-            redirect('dashboard/admin/pengaturan');
+            redirect('dashboard/seller/pengaturan');
           }
         }
       }
@@ -1039,10 +1011,10 @@ class Admin extends CI_Controller
 
   public function laporan_penjualan()
   {
-    ($this->session->level == 'admin')? redirect('dashboard/admin/customers'): '' ;
+    ($this->session->level == 'admin')? redirect('dashboard/seller/customers'): '' ;
     $data['title'] = 'Laporan Penjualan';
     $data['laporan'] = $this->Admin_Model->getLaporanPenjualan();
-    $this->load->view('admin/laporan/penjualan', $data);
+    $this->load->view('seller/laporan/penjualan', $data);
   }
 
   public function setRangePenjualan()
@@ -1077,10 +1049,10 @@ class Admin extends CI_Controller
 
   public function laporan_barang()
   {
-    ($this->session->level == 'admin')? redirect('dashboard/admin/customers'): '' ;
+    ($this->session->level == 'admin')? redirect('dashboard/seller/customers'): '' ;
     $data['title'] = 'Laporan Barang';
     $data['laporan'] = $this->Admin_Model->getLaporanBarang();
-    $this->load->view('admin/laporan/barang', $data);
+    $this->load->view('seller/laporan/barang', $data);
   }
 
   public function setRangeBarang()
@@ -1113,14 +1085,14 @@ class Admin extends CI_Controller
 
   public function laporan_pelanggan()
   {
-    ($this->session->level == 'admin')? redirect('dashboard/admin/customers'): '' ;
+    ($this->session->level == 'admin')? redirect('dashboard/seller/customers'): '' ;
     $data['title'] = 'Laporan Pelanggan';
     $data['laporan'] = $this->Admin_Model->getLaporanPelanggan();
       //     echo '<pre>';
       // var_dump($data['laporan']);
       // echo $this->db->last_query();
       // echo '</pre>'; die();
-    $this->load->view('admin/laporan/pelanggan', $data);
+    $this->load->view('seller/laporan/pelanggan', $data);
   }
 
   public function setRangePelanggan()
@@ -1244,40 +1216,9 @@ class Admin extends CI_Controller
     }
   }
 
-  public function nonaktif_admin($id)
-  {
-    if ($id != NULL) {
-      if ($this->Admin_Model->nonaktifAdmin(decrypt_url($id), 0)) {
-        $this->freeM->getSweetAlert('message', 'Success!', 'Admin berhasil di nonaktifkan!.', 'success');
-        redirect('dashboard/admin/data_admin', 'refresh');
-      } else {
-        $this->freeM->getSweetAlert('message', 'Upss!', 'Admin gagal di nonaktifkan!', 'error');
-        redirect('dashboard/admin/data_admin', 'refresh');
-      }
-    } else {
-      redirect('dashboard/admin/data_admin', 'refresh');
-    }
-    
-  }
-
-  public function aktif_admin($id)
-  {
-    if ($id != NULL) {
-      if ($this->Admin_Model->nonaktifAdmin(decrypt_url($id), 1)) {
-        $this->freeM->getSweetAlert('message', 'Success!', 'Admin berhasil di aktifkan!.', 'success');
-        redirect('dashboard/admin/data_admin', 'refresh');
-      } else {
-        $this->freeM->getSweetAlert('message', 'Upss!', 'Admin gagal di aktifkan!', 'error');
-        redirect('dashboard/admin/data_admin', 'refresh');
-      }
-    } else {
-      redirect('dashboard/admin/data_admin', 'refresh');
-    }
-  }
-
   public function remiderUserKonfirmasi($id = null)
   {
-    ($id == null)? redirect('dashboard/admin/orders_pengiriman'): '';
+    ($id == null)? redirect('dashboard/seller/orders_pengiriman'): '';
     $res = $this->Admin_Model->getInfoResiById($id); //get info pengiriman
     $dataEmail = [
       'id_orders' => $res['id_orders'],
@@ -1292,10 +1233,10 @@ class Admin extends CI_Controller
     if($this->Admin_Model->updateNotifPenerimaan($id)){
         $this->freeM->sendEmail($dataEmail, 'Konfirmasi Penerimaan Barang '.$id, EMAIL_FROM,'notif-terkirim');
         $this->freeM->getSweetAlert('message', 'Success!', 'Pemberitahuan konfirmasi barang diterima berhasil dikirim!', 'success');
-        redirect('dashboard/admin/orders_pengiriman');
+        redirect('dashboard/seller/orders_pengiriman');
       } else {
         $this->freeM->getSweetAlert('message', 'Upss!', 'Pemberitahuan konfirmasi barang diterima gagal dikirim! Query Error!', 'error');
-        redirect('dashboard/admin/orders_pengiriman');
+        redirect('dashboard/seller/orders_pengiriman');
       }
   }
 
@@ -1315,10 +1256,10 @@ class Admin extends CI_Controller
       ];
       $this->freeM->sendEmail($dataEmail, 'Pembatalan Pemesanan '.$dataEmail['id_orders'], EMAIL_FROM,'notif-batalkan');
       $this->freeM->getSweetAlert('message', 'Success!', 'Pembatalan pemesanan berhasil!', 'success');
-      redirect('dashboard/admin/data_orders');
+      redirect('dashboard/seller/data_orders');
     } else {
       $this->freeM->getSweetAlert('message', 'Upss!', 'Pembatalan pemesanan gagal!', 'error');
-      redirect('dashboard/admin/data_orders');
+      redirect('dashboard/seller/data_orders');
     }
   }
 

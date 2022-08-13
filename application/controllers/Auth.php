@@ -50,13 +50,13 @@ class Auth extends CI_Controller
                         //set session for 30 minutes
                         $this->session->sess_expiration = '43200'; //12 Jam
                         $this->session->sess_expire_on_close = 'true';
-                    } else if ($user['level'] == 'Admin') {
+                    } else if ($user['level'] == 'Admin' || $user['level'] == 'Member') {
                         //set session for 30 minutes
                         $this->session->sess_expiration = '43200'; //12 Jam
                         $this->session->sess_expire_on_close = 'true';
                     } else {
                         //set session for 30 minutes
-                        $this->session->sess_expiration = '7200'; //2 Jam
+                        $this->session->sess_expiration = '14400'; //4 Jam
                         $this->session->sess_expire_on_close = 'true';
                     }
                     $this->session->set_userdata($dataSession);
@@ -99,6 +99,7 @@ class Auth extends CI_Controller
             $this->form_validation->set_rules('provinsi', 'Provinsi', 'required|trim|min_length[3]|max_length[100]');
             $this->form_validation->set_rules('kecamatan', 'Kecamatan', 'required|trim|min_length[3]|max_length[100]');
             $this->form_validation->set_rules('kabupaten', 'Kabupaten', 'required|trim|min_length[3]|max_length[100]');
+            $this->form_validation->set_rules('is_seller', 'Daftar Sebagai Penjual', 'min_length[1]|max_length[2]');
             $this->form_validation->set_rules('zip_code', 'Kode Pos', 'required|trim|min_length[2]|alpha_numeric_spaces|max_length[15]');
             $this->form_validation->set_rules('email', 'Email Address', 'required|trim|valid_email|is_unique[data_user.email]', [
                 'is_unique' => 'This email already exist'
@@ -119,6 +120,12 @@ class Auth extends CI_Controller
                 ];
                 $this->load->view('auth/register', $data);
             } else {
+//                dd($this->input->post());
+                if($this->input->post('is_seller') == 'on'){
+                    $is_seller = true;
+                } else {
+                    $is_seller = false;
+                }
                 $namaUser = htmlspecialchars($this->input->post('fname', true));
                 $data = [
                     'nama' => ucwords($namaUser),
@@ -128,9 +135,9 @@ class Auth extends CI_Controller
                     'provinsi' => $this->input->post('provinsi', true),
                     'kabupaten' => $this->input->post('kabupaten', true),
                     'kecamatan' => $this->input->post('kecamatan', true),
-                    'email' => htmlspecialchars($this->input->post('email', true)),
+                    'email' => strtolower(htmlspecialchars($this->input->post('email', true))),
                     'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
-                    'level' => 'Member'
+                    'level' => $is_seller ? 'Seller' : 'Member'
                 ];
                 $dataEmail = [
                     'nama' => ucwords($namaUser),

@@ -29,7 +29,7 @@ class Auth_Model extends CI_Model
     public function loginUser($email)
     {
         $this->db->join('detail_user', 'detail_user.id_user=data_user.id_user');
-        $data = $this->db->get_where('data_user', ['email' => $email])->row_array();
+        $data = $this->db->get_where('data_user', ['email' => strtolower($email)])->row_array();
         if($data['delete_at'] == NULL){
             return $data;
         } else {

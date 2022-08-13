@@ -12,7 +12,7 @@
 		<li><a><i class="fa fa-edit"></i> Data Produk <span class="fa fa-chevron-down"></span></a>
 		<ul class="nav child_menu">
 			<li><a href="<?= base_url('dashboard/admin/data_product') ?>">List Produk</a></li>
-			<li><a href="<?= base_url('dashboard/admin/add_product') ?>">Tambah Produk</a></li>
+<!--			<li><a href="--><?//= base_url('dashboard/admin/add_product') ?><!--">Tambah Produk</a></li>-->
 			<li><a href="<?= base_url('dashboard/admin/add_category') ?>">Data Kategori Produk</a></li>
 		</ul>
 		</li>

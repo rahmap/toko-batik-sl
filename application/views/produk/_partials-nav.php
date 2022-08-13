@@ -77,7 +77,7 @@
             echo
               '<li class="nav-item mr-2">'; ?>
             <a href="
-              <?= ($this->session->level == 'Member') ?  base_url('dashboard/customers') : base_url('dashboard/admin')
+              <?= ($this->session->level == 'Member') ?  base_url('dashboard/customers') : (($this->session->level == 'Seller') ? base_url('dashboard/seller') : base_url('dashboard/admin'))
                 ?>" class="nav-link border border-light rounded waves-effect">
               <i class="fab fa-github mr-2"></i>Dashboard
             </a>

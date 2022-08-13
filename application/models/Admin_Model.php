@@ -83,6 +83,7 @@ class Admin_Model extends CI_Model
     public function inputProduct($data, $detail)
     {
         $this->db->trans_begin();
+        $data['fk_seller'] = $this->session->id_user;
         $this->db->insert('produk', $data);
         $id_produk = $this->db->insert_id();
         $detail['id_produk'] = $id_produk;
@@ -114,7 +115,11 @@ class Admin_Model extends CI_Model
     {
         $this->db->join('detail_produk', 'detail_produk.id_produk=produk.id_produk', 'INNER');
         $this->db->join('kategori', 'kategori.id_cat=produk.id_cat', 'LEFT');
-        return $this->db->get_where('produk', ['produk.delete_at' => 0])->result_array();
+        if($this->session->level == 'Seller'){
+          return $this->db->get_where('produk', ['produk.delete_at' => 0, 'produk.fk_seller' => $this->session->id_user])->result_array();
+        } else {
+          return $this->db->get_where('produk', ['produk.delete_at' => 0])->result_array();
+        }
     }
 
     public function getCatTag($tabel, $field = array())
@@ -249,6 +254,9 @@ class Admin_Model extends CI_Model
         $this->db->join('produk', 'produk.id_produk=orders_produk.id_produk');
         $this->db->join('detail_produk', 'produk.id_produk=detail_produk.id_produk');
         $this->db->join('data_user', 'orders.id_user=data_user.id_user');
+        if($this->session->level == 'Seller'){
+          $this->db->where('produk.fk_seller', $this->session->id_user);
+        }
         $this->db->where('orders.status_order', $status);
         $this->db->where('orders.nomer_resi' . $resi, null);
         $this->db->group_by('orders.id_orders');
@@ -301,6 +309,9 @@ class Admin_Model extends CI_Model
         $this->db->join('produk', 'produk.id_produk=orders_produk.id_produk');
         $this->db->join('detail_produk', 'produk.id_produk=detail_produk.id_produk');
         $this->db->join('data_user', 'orders.id_user=data_user.id_user');
+        if($this->session->level == 'Seller'){
+          $this->db->where('produk.fk_seller', $this->session->id_user);
+        }
         $this->db->where('orders.status_pengiriman', 'Terkirim');
         $this->db->group_by('orders.id_orders');
         $this->db->order_by('orders.tanggal_order', 'DESC');
@@ -313,6 +324,11 @@ class Admin_Model extends CI_Model
             'SUM(midtrans.gross_amount) as tot_beli',
         ]);
         $this->db->join('midtrans', 'orders.id_orders=midtrans.order_id');
+        if($this->session->level == 'Seller'){
+          $this->db->join('orders_produk','orders_produk.id_orders=orders.id_orders');
+          $this->db->join('produk','orders_produk.id_produk=produk.id_produk');
+          $this->db->where('produk.fk_seller', $this->session->id_user);
+        }
         $this->db->where('orders.status_pengiriman', 'Terkirim');
         return $this->db->get('orders')->row_array();
     }
@@ -323,7 +339,11 @@ class Admin_Model extends CI_Model
             'SUM(midtrans.gross_amount) as tot_hari',
         ]);
         $this->db->join('midtrans', 'orders.id_orders=midtrans.order_id');
-
+        if($this->session->level == 'Seller'){
+          $this->db->join('orders_produk','orders_produk.id_orders=orders.id_orders');
+          $this->db->join('produk','orders_produk.id_produk=produk.id_produk');
+          $this->db->where('produk.fk_seller', $this->session->id_user);
+        }
         $time = (new DateTime('today'))->format('d/m/Y');
         $time1 = (new DateTime('today'))->format('d/m/Y');
         $this->db->where('orders.tanggal_selesai BETWEEN "' . $time . '" and "' . $time1 . '"');
@@ -339,7 +359,11 @@ class Admin_Model extends CI_Model
             'SUM(midtrans.gross_amount) as tot_bulan',
         ]);
         $this->db->join('midtrans', 'orders.id_orders=midtrans.order_id');
-
+        if($this->session->level == 'Seller'){
+          $this->db->join('orders_produk','orders_produk.id_orders=orders.id_orders');
+          $this->db->join('produk','orders_produk.id_produk=produk.id_produk');
+          $this->db->where('produk.fk_seller', $this->session->id_user);
+        }
         $time = (new DateTime('first day of this month'))->format('d/m/Y');
         $time1 = (new DateTime('today'))->format('d/m/Y');
         $this->db->where('orders.tanggal_selesai BETWEEN "' . $time . '" and "' . $time1 . '"');
@@ -363,6 +387,9 @@ class Admin_Model extends CI_Model
         if ($where != null) {
             $this->db->where('detail_produk.aktif', $where);
         }
+        if($this->session->level == 'Seller'){
+          $this->db->where('produk.fk_seller', $this->session->id_user);
+        }
         $this->db->where('produk.delete_at', 0);
         return $this->db->count_all_results('detail_produk');
     }
@@ -384,6 +411,11 @@ class Admin_Model extends CI_Model
 
     public function countOrders($status = null)
     {
+        if($this->session->level == 'Seller'){
+          $this->db->join('orders_produk','orders_produk.id_orders=orders.id_orders');
+          $this->db->join('produk','orders_produk.id_produk=produk.id_produk');
+          $this->db->where('produk.fk_seller', $this->session->id_user);
+        }
         $this->db->join('midtrans', 'orders.id_orders=midtrans.order_id', 'INNER');
         if ($status != null) {
             $this->db->where(['orders.status_order' => $status]);
@@ -401,6 +433,11 @@ class Admin_Model extends CI_Model
 
     public function countPengiriman()
     {
+        if($this->session->level == 'Seller'){
+          $this->db->join('orders_produk','orders_produk.id_orders=orders.id_orders');
+          $this->db->join('produk','orders_produk.id_produk=produk.id_produk');
+          $this->db->where('produk.fk_seller', $this->session->id_user);
+        }
         $this->db->where(['nomer_resi !=' => null]);
         $this->db->where(['status_pengiriman' => 'Sedang Dikirim']);
         return $this->db->count_all_results('orders');
@@ -408,6 +445,11 @@ class Admin_Model extends CI_Model
 
     public function countDone()
     {
+        if($this->session->level == 'Seller'){
+          $this->db->join('orders_produk','orders_produk.id_orders=orders.id_orders');
+          $this->db->join('produk','orders_produk.id_produk=produk.id_produk');
+          $this->db->where('produk.fk_seller', $this->session->id_user);
+        }
         $this->db->where(['status_order' => 'Selesai']);
         $this->db->where(['status_pengiriman' => 'Terkirim']);
         return $this->db->count_all_results('orders');
@@ -435,6 +477,33 @@ class Admin_Model extends CI_Model
         } else {
             return 0;
         }
+    }
+
+    public function updateProfileSeller($data, $dataFoto = null)
+    {
+      // var_dump($dataFoto);
+      // die();
+      $dataDiri = [
+        'nama' => $data['nama'],
+        'email' => $data['email'],
+        'address' => $data['address'],
+        'provinsi' => $data['provinsi'],
+        'kabupaten' => $data['kabupaten'],
+        'kecamatan' => $data['kecamatan'],
+        'zip_code' => $data['zip_code'],
+        'no_hp' => $data['no_hp']
+      ];
+  //    dd($dataDiri);
+
+      $this->db->update('data_user', $dataDiri, ['id_user' => $this->session->id_user]);
+      if($dataFoto != null){
+        $foto['foto'] = $dataFoto;
+        $this->db->update('detail_user', $foto, ['id_user' => $this->session->id_user]);
+      }
+
+      $this->session->nama = $data['nama'];
+      $this->session->email = $data['email'];
+      return 1;
     }
 
     public function updateKeamanan($data)

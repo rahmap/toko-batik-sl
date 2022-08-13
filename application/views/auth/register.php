@@ -79,6 +79,10 @@
                   <?= form_error('password1', '<small class="text-danger pl-3">', '</small>') ?>
                 </div>
               </div>
+              <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="is_seller" name="is_seller">
+                <label style="font-weight:bold; color: #dcc94f" class="form-check-label" for="is_seller">Daftar Sebagai Penjual</label>
+              </div>
               <div class="row mt-5 mb-4 justify-content-center">
                 <div class="col-md-4 text-center">
                   <button type="submit" name="submit" class="btn btn-primary btn-user btn-block">
