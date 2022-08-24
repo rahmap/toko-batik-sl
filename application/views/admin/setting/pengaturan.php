@@ -77,7 +77,7 @@
                           <i class="fa fa-briefcase user-profile-icon"></i><span class="text-warning"><b> <?= $this->session->email ?></b></span>
                         </li>
                         <li>
-                          <i class="fa fa-briefcase user-profile-icon "></i> <span class="text-success"><b>Member sejak <?= date('d/m/Y H:i', $joinAt)   ?></b> </span>
+                          <i class="fa fa-briefcase user-profile-icon "></i> <span class="text-success"><b><?= $this->session->level ?> sejak <?= date('d/m/Y H:i', $joinAt)   ?></b> </span>
                         </li>
 
                       </ul>

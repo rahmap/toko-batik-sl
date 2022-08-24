@@ -1,6 +1,6 @@
-		    <footer>
-          <div class="pull-right">
-          Batik Store <a href="https://www.instagram.com/rahmaap__/">made with love byBatik Store</a>
-          </div>
-          <div class="clearfix"></div>
-        </footer>
+<footer style="background-color: #EDEDED">
+  <div class="pull-right">
+
+  </div>
+  <div class="clearfix"></div>
+</footer>

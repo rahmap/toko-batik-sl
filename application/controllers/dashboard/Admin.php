@@ -33,7 +33,7 @@ class Admin extends CI_Controller
       'totPelanggan' => $this->Admin_Model->countCustomers(),
       'totOrders' => $this->Admin_Model->countDone(),
       'totProduk' => $this->Admin_Model->countProduk(),
-      'totAdmin' => $this->Admin_Model->countAdmin(),
+      'totSeller' => $this->Admin_Model->countSeller(),
       'totHari' => $this->Admin_Model->countPendapatanHari(),
       'totBulan' => $this->Admin_Model->countPendapatanBulan(),
       'totUang' => $this->Admin_Model->countPendapatan(),
@@ -54,6 +54,17 @@ class Admin extends CI_Controller
     $this->load->view('admin/customers/data_customers', $data);
   }
 
+  public function data_sellers()
+  {
+    $data['title'] = 'Data Sellers - Admin';
+    $data['sellers'] = $this->Admin_Model->getAllSeller();
+    $data['allCustomers'] = $this->Admin_Model->countCustomers(null, 'Seller');
+    $data['bulanCustomers'] = $this->Admin_Model->countCustomers('bulan', 'Seller');
+    $data['hariCustomers'] = $this->Admin_Model->countCustomers('hari', 'Seller');
+    // var_dump($this->db->last_query());
+    $this->load->view('admin/customers/data_sellers', $data);
+  }
+
   public function delete_customers($id = null)
   {
     if ($id != NULL) {
@@ -66,6 +77,20 @@ class Admin extends CI_Controller
       redirect('dashboard/admin/data_customers');
     }
     redirect('dashboard/admin/data_customers');
+  }
+
+  public function delete_sellers($id = null)
+  {
+    if ($id != NULL) {
+      if ($this->Admin_Model->deleteSeller(decrypt_url($id))) {
+        $this->freeM->getSweetAlert('message', 'Success!', 'Data penjual berhasil di hapus!.', 'success');
+      } else {
+        $this->freeM->getSweetAlert('message', 'Upss!', 'Data penjual gagal di hapus!', 'error');
+      }
+    } else {
+      redirect('dashboard/admin/data_sellers');
+    }
+    redirect('dashboard/admin/data_sellers');
   }
 
   public function nonaktif_customers($id = null)
@@ -89,6 +114,27 @@ class Admin extends CI_Controller
     redirect('dashboard/admin/data_customers');
   }
 
+  public function nonaktif_sellers($id = null)
+  {
+    if ($id != NULL) {
+      if ($this->Admin_Model->nonaktifCustomers(decrypt_url($id))) {
+        $res = $this->Admin_Model->getInfoUserByIdWOToken(decrypt_url($id)); //get info pengiriman
+        $dataEmail = [
+          'nama' => $res['nama'],
+          'email' => $res['email']
+        ];
+        $this->freeM->sendEmail($dataEmail, 'Informasi Akun ['.$res['email'].']',  EMAIL_FROM, 'nonaktif-pelanggan');
+        $this->freeM->getSweetAlert('message', 'Success!', 'Berhasil mengirim email pengaktifan!.', 'success');
+        $this->freeM->getSweetAlert('message', 'Success!', 'Seller berhasil di nonaktifkan!.', 'success');
+      } else {
+        $this->freeM->getSweetAlert('message', 'Upss!', 'Seller gagal di nonaktifkan!', 'error');
+      }
+    } else {
+      redirect('dashboard/admin/data_sellers');
+    }
+    redirect('dashboard/admin/data_sellers');
+  }
+
   public function aktifkan_customers($id = null) //Belum selesai
   {
     if ($id != NULL) {
@@ -108,6 +154,27 @@ class Admin extends CI_Controller
       redirect('dashboard/admin/data_customers');
     }
     redirect('dashboard/admin/data_customers');
+  }
+
+  public function aktifkan_sellers($id = null) //Belum selesai
+  {
+    if ($id != NULL) {
+      if ($this->Admin_Model->generateUserToken(decrypt_url($id))) {
+        $res = $this->Admin_Model->getInfoUserById(decrypt_url($id)); //get info pengiriman
+        $dataEmail = [
+          'nama' => $res['nama'],
+          'email' => $res['email'],
+          'token' => $res['token']
+        ];
+        $this->freeM->sendEmail($dataEmail, 'Pengaktifan Akun ['.$res['email'].']',  EMAIL_FROM, 'aktif-pelanggan');
+        $this->freeM->getSweetAlert('message', 'Success!', 'Berhasil mengirim email pengaktifan!.', 'success');
+      } else {
+        $this->freeM->getSweetAlert('message', 'Upss!', 'Gagal mengirim email pengaktifan!', 'error');
+      }
+    } else {
+      redirect('dashboard/admin/data_sellers');
+    }
+    redirect('dashboard/admin/data_sellers');
   }
 
   public function add_product()

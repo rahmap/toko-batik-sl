@@ -9,6 +9,11 @@
 			<li><a href="<?= base_url('dashboard/admin/data_customers') ?>">List Pelanggan</a></li>
 		</ul>
 		</li>
+    <li><a><i class="fa fa-industry"></i> Data Penjual <span class="fa fa-chevron-down"></span></a>
+		<ul class="nav child_menu">
+			<li><a href="<?= base_url('dashboard/admin/data_sellers') ?>">List Penjual</a></li>
+		</ul>
+		</li>
 		<li><a><i class="fa fa-edit"></i> Data Produk <span class="fa fa-chevron-down"></span></a>
 		<ul class="nav child_menu">
 			<li><a href="<?= base_url('dashboard/admin/data_product') ?>">List Produk</a></li>
@@ -27,14 +32,14 @@
 	</div>
 	<?php if($this->session->level == 'Owner'): ?>
 	<div class="menu_section">
-	<h3>Owner</h3>
+	<h3>Laporan</h3>
 	<ul class="nav side-menu">
-		<li><a><i class="fa fa-edit"></i> Data Admin <span class="fa fa-chevron-down"></span></a>
-			<ul class="nav child_menu">
-				<li><a href="<?= base_url('dashboard/admin/data_admin') ?>">List Admin</a></li>
-				<li><a href="<?= base_url('dashboard/admin/tambah_admin') ?>">Tambah Admin</a></li>
-			</ul>
-		</li>
+		<!--<li><a><i class="fa fa-edit"></i> Data Admin <span class="fa fa-chevron-down"></span></a>-->
+		<!--	<ul class="nav child_menu">-->
+		<!--		<li><a href="--><?//= base_url('dashboard/admin/data_admin') ?><!--">List Admin</a></li>-->
+		<!--		<li><a href="--><?//= base_url('dashboard/admin/tambah_admin') ?><!--">Tambah Admin</a></li>-->
+		<!--	</ul>-->
+		<!--</li>-->
 		<li><a><i class="fa fa-edit"></i> Laporan <span class="fa fa-chevron-down"></span></a>
 			<ul class="nav child_menu">
 				<li><a href="<?= base_url('dashboard/admin/laporan_penjualan') ?>">Penjualan</a></li>

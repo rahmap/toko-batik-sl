@@ -22,6 +22,12 @@ class Admin_Model extends CI_Model
         return $this->db->get_where('data_user', ['data_user.level' => 'Admin'])->result_array();
     }
 
+    public function getAllSeller()
+    {
+        $this->db->join('detail_user', 'detail_user.id_user=data_user.id_user', 'INNER');
+        return $this->db->get_where('data_user', ['data_user.level' => 'Seller'])->result_array();
+    }
+
     public function generateUserToken($id)
     {
         $this->load->helper('string');
@@ -63,6 +69,12 @@ class Admin_Model extends CI_Model
     }
 
     public function deleteAdmin($id)
+    {
+        $this->db->delete('data_user', ['id_user' => $id]);
+        return $this->db->affected_rows();
+    }
+
+    public function deleteSeller($id)
     {
         $this->db->delete('data_user', ['id_user' => $id]);
         return $this->db->affected_rows();
@@ -381,6 +393,12 @@ class Admin_Model extends CI_Model
         return $this->db->count_all_results('data_user');
     }
 
+    public function countSeller()
+    {
+        $this->db->where(['level' => 'Seller']);
+        return $this->db->count_all_results('data_user');
+    }
+
     public function countProduk($where = null)
     {
         $this->db->join('produk', 'produk.id_produk=detail_produk.id_produk');
@@ -394,11 +412,11 @@ class Admin_Model extends CI_Model
         return $this->db->count_all_results('detail_produk');
     }
 
-    public function countCustomers($kondisi = null)
+    public function countCustomers($kondisi = null, $level = 'Member')
     {
         $this->db->join('detail_user', 'detail_user.id_user=data_user.id_user');
         $this->db->where('detail_user.delete_at', null);
-        $this->db->where('data_user.level', 'Member');
+        $this->db->where('data_user.level', $level);
         if ($kondisi == 'bulan') {
             $time = (new DateTime('first day of this month'))->format('Y-m');
             $this->db->where('detail_user.create_date BETWEEN "' . strtotime($time) . '" and "' . strtotime('last day of this month', time()) . '"');

@@ -42,7 +42,7 @@ class Produk extends CI_Controller
     }
     $dataUser = $this->Admin_Model->getDetailUsers();
     if ($this->session->level == 'Admin' or $this->session->level == 'Owner' or $this->session->level == 'Seller') {
-      $this->freeM->getSweetAlert('infoPayment', 'Upss!', 'Admin, Owner dan Seller tidak dapat berbelanja, gunakan akun Member!');
+      $this->freeM->getSweetAlert('infoPayment', 'Upss!', $this->session->level.' tidak dapat berbelanja, gunakan akun Member!');
     }
     if (count($this->cart->contents()) == 0) {
       redirect('/');

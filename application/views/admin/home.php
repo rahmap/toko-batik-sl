@@ -66,9 +66,9 @@
 						<div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
 							<div class="tile-stats">
 							<div class="icon"><i class="fa fa-check-square-o"></i></div>
-							<div class="count"><?= $totAdmin ?></div>
-							<h3>Total Admin</h3>
-							<p>Jumlah admin pada toko.</p>
+							<div class="count"><?= $totSeller ?></div>
+							<h3>Total Seller</h3>
+							<p>Jumlah penjual pada toko.</p>
 							</div>
 						</div>
 						<div class="animated flipInY col-lg-4 col-md-4 col-sm-6 col-xs-12">
